@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://boayar3alcv5c"]
+
+[ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
+[ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
+
+[node name="GameUI" type="Control" unique_id=915763936]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bo1nx")
+
+[node name="MainBody" type="MarginContainer" parent="." unique_id=1607399402]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextLog" type="RichTextLabel" parent="MainBody" unique_id=2092176170]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+
+[node name="GameState" type="Node" parent="." unique_id=250483524]
+script = ExtResource("1_jjgbg")
