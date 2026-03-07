@@ -3,6 +3,7 @@ class_name GameState
 
 # ---/SIGNALS/---
 signal log_text(text: String)
+signal stats_changed(hp, max_hp, deck_count, gold)
 
 # ---/CONSTANTS/---
 const SPADES = "♠"
@@ -14,8 +15,10 @@ const DIAMONDS = "♦"
 var hp = 20
 var max_hp = 20
 var gold = 0
+var deck_count: int = 0
 
-var card_position: int = 4
+var card_position = 0
+var _initialized = false
 
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
@@ -98,7 +101,7 @@ func _say(text: String) -> void:
 func _emit_items() -> void:
 	_emit_symbols()
 	if items_symbols == []:
-		_say("ITEMS: ")
+		_say("ITEMS: (EMPTY)\n\n")
 	else:
 		_say("ITEMS: " + str(items_symbols) + "\n\n")
 
@@ -106,6 +109,9 @@ func _emit_room() -> void:
 	_emit_symbols()
 	_say("ROOM: " + str(room_symbols) + "\n\n")
 	_emit_items()
+
+func _emit_stats() -> void:
+	emit_signal("stats_changed", hp, max_hp, deck_count, gold)
 
 func _emit_symbols() -> void:
 	deck_symbols.clear()
@@ -173,13 +179,23 @@ func generate_deck() -> void:
 			card_values.erase("suit")
 			deck.append(card_values)
 	deck.shuffle()
-	_say("The deck has been shuffled.\n\n")
+	_say("▻The deck has been shuffled.\n\n")
+	deck_count = deck.size()
+	_emit_stats()
+	fill_room()
 
 func fill_room() -> void:
 	while room.size() < 4:
 		var card = deck[0]
-		room.append(card)
+		var position = card_position
+		if _initialized == false:
+			room.append(card)
+		else:
+			room.insert(position, card)
 		deck.remove_at(0)
+	card_position = 4
+	_initialized = true
+	_emit_stats()
 	_emit_room()
 
 func choose_card() -> void:
@@ -189,12 +205,9 @@ func choose_card() -> void:
 	else:
 		var symbol = card.id
 		items.append(card)
-		_say("Added " + symbol + " to your inventory.\n\n")
-		_emit_items()
-	
+		_say("▻Added " + symbol + " to your inventory.\n\n")
 	room.remove_at(card_position)
-	card_position = 4
-	_emit_room()
+	fill_room()
 
 #func sort_room() -> void:
 	#var enemy_symbols: Array = []
@@ -219,7 +232,6 @@ func choose_card() -> void:
 
 func enter_room() -> void:
 	generate_deck()
-	fill_room()
 
 # ---/ACTIONS/---
 func attack(enemy: Array) -> void:
