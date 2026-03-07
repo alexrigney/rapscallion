@@ -4,6 +4,7 @@ class_name GameState
 # ---/SIGNALS/---
 signal log_text(text: String)
 signal stats_changed(hp, max_hp, deck_count, gold)
+signal inventory_changed(weapon, potion)
 
 # ---/CONSTANTS/---
 const SPADES = "♠"
@@ -19,6 +20,10 @@ var deck_count: int = 0
 
 var card_position = 0
 var _initialized = false
+
+# ---/ITEM STATE/---
+var weapon = ""
+var potion = ""
 
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
@@ -98,17 +103,13 @@ func start_game() -> void:
 func _say(text: String) -> void:
 	emit_signal("log_text", text)
 
-func _emit_items() -> void:
-	_emit_symbols()
-	if items_symbols == []:
-		_say("ITEMS: (EMPTY)\n\n")
-	else:
-		_say("ITEMS: " + str(items_symbols) + "\n\n")
+func _emit_inventory() -> void:
+	emit_signal("inventory_changed", weapon, potion)
 
 func _emit_room() -> void:
 	_emit_symbols()
 	_say("ROOM: " + str(room_symbols) + "\n\n")
-	_emit_items()
+	_emit_inventory()
 
 func _emit_stats() -> void:
 	emit_signal("stats_changed", hp, max_hp, deck_count, gold)
@@ -200,42 +201,43 @@ func fill_room() -> void:
 
 func choose_card() -> void:
 	var card = room[card_position]
+	var symbol = str(card.id)
+	var current_weapon = weapon
+	var current_potion = potion
+	
 	if card.type == "enemy":
 		attack(card)
+	elif card.type == "weapon":
+		if weapon != "":
+			items.remove_at(0)
+			discard.append(card)
+			_say("▻Discarded " + current_weapon + "\n\n")
+		items.insert(0, card)
+		weapon = symbol
+		_say("▻Equipped " + symbol + "\n\n")
 	else:
-		var symbol = card.id
-		items.append(card)
-		_say("▻Added " + symbol + " to your inventory.\n\n")
+		if potion != "":
+			items.remove_at(1)
+			discard.append(card)
+			_say("▻Discarded " + current_potion + "\n\n")
+		items.insert(1, card)
+		potion = symbol
+		_say("▻Equipped " + symbol + "\n\n")
+	_emit_inventory()
 	room.remove_at(card_position)
 	fill_room()
-
-#func sort_room() -> void:
-	#var enemy_symbols: Array = []
-	#var hand_symbols: Array = []
-	#while enemies.size() < 4:
-		#for card in room:
-			#if card.id.find(SPADES) != -1 or card.id.find(CLUBS) != -1:
-				#enemies.append(card)
-				#enemy_symbols.append(card.id)
-				#_say("An enemy has appeared: " + card.id)
-			#else:
-				#if hand.size() < 4:
-					#hand.append(card)
-					#hand_symbols.append(card.id)
-					#_say("You've drawn " + card.id)
-				#else:
-					#discard.append(card)
-					#_say(card.id + " has been discarded. Hand too full.")
-					#_say("You've drawn " + card.id)
-	#_say("ENEMIES: " + str(enemy_symbols))
-	#_say("ITEMS: " + str(hand_symbols))
 
 func enter_room() -> void:
 	generate_deck()
 
 # ---/ACTIONS/---
-func attack(enemy: Array) -> void:
+func attack(enemy: Dictionary) -> void:
 	pass
+	var enemy_hp = enemy.value
+	var old_hp = hp
+	var weapon_dmg = items[0].value
+	var hit_dmg = max(enemy_hp - weapon_dmg, 0)
 	
-func add_item(item: Array) -> void:
-	items.append(item)
+	hp = max(old_hp - hit_dmg, 0)
+	if hp == 0:
+		pass
