@@ -18,8 +18,11 @@ config/icon="res://Icons/icon.svg"
 [file_customization]
 
 folder_colors={
+"res://Card Icons/": "red",
 "res://Icons/": "gray",
-"res://Scripts/": "purple"
+"res://Music/": "purple",
+"res://SFX/": "green",
+"res://Scripts/": "yellow"
 }
 
 [physics]

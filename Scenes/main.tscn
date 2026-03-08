@@ -2,6 +2,20 @@
 
 [ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
+[ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
+[ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
+bg_color = Color(0.099985994, 0.09998601, 0.099985965, 0.46666667)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo1nx"]
 bg_color = Color(0.08078333, 0.08078336, 0.08078327, 0.6901961)
@@ -11,11 +25,20 @@ border_width_right = 1
 border_width_bottom = 1
 border_blend = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gbba"]
+bg_color = Color(0.6039216, 0.6, 0.6, 0)
+
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_bo1nx"]
 color = Color(0.4045111, 0.40451115, 0.4045111, 0.6313726)
 grow_begin = -3.0
 grow_end = -3.0
 vertical = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21xkr"]
+bg_color = Color(0.2231029, 0.2231029, 0.22310278, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
+bg_color = Color(0.12591082, 0.12591085, 0.12591076, 1)
 
 [node name="GameUI" type="Control" unique_id=915763936]
 layout_mode = 3
@@ -34,14 +57,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MainBody" unique_id=2127373242]
+[node name="LogContainerMargin" type="MarginContainer" parent="MainBody" unique_id=2127373242]
+custom_minimum_size = Vector2(503, 0)
 layout_mode = 2
-theme_override_constants/margin_left = 7
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 7
+size_flags_horizontal = 8
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 31
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 10
 
-[node name="TextLog" type="RichTextLabel" parent="MainBody/MarginContainer" unique_id=2092176170]
+[node name="LogContainer" type="PanelContainer" parent="MainBody/LogContainerMargin" unique_id=1246218966]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
+
+[node name="TextMargin" type="MarginContainer" parent="MainBody/LogContainerMargin/LogContainer" unique_id=1543781834]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="TextLog" type="RichTextLabel" parent="MainBody/LogContainerMargin/LogContainer/TextMargin" unique_id=2092176170]
 unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
@@ -49,7 +85,8 @@ fit_content = true
 
 [node name="StatMargin" type="MarginContainer" parent="MainBody" unique_id=180535819]
 layout_mode = 2
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 5
 
 [node name="RunInfoBox" type="PanelContainer" parent="MainBody/StatMargin" unique_id=606111376]
 layout_mode = 2
@@ -64,8 +101,9 @@ alignment = 1
 
 [node name="HpLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=190761986]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=301977410]
@@ -74,8 +112,9 @@ theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
 [node name="DeckCountLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=64826842]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
 [node name="VSeparator2" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=2085286426]
@@ -84,8 +123,10 @@ theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
 [node name="WeaponLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=80962034]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
+horizontal_alignment = 1
 
 [node name="VSeparator3" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=837647594]
 layout_mode = 2
@@ -93,8 +134,101 @@ theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
 [node name="PotionLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=463055657]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
+horizontal_alignment = 1
+
+[node name="RoomMargin" type="MarginContainer" parent="MainBody" unique_id=1550647451]
+custom_minimum_size = Vector2(650, 150)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="RoomLabelMargin" type="Label" parent="MainBody/RoomMargin" unique_id=1700883891]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "ROOM"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoomInfoMargin" type="MarginContainer" parent="MainBody" unique_id=91645195]
+custom_minimum_size = Vector2(650, 487)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_bottom = 150
+
+[node name="RoomInfoLabel" type="HBoxContainer" parent="MainBody/RoomInfoMargin" unique_id=536191334]
+layout_mode = 2
+alignment = 1
+
+[node name="Card1" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=999595038]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Card2" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=1475274254]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Card3" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=1108126720]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Card4" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=2099132707]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
+
+[node name="Label" type="Label" parent="MainBody/GameOverScreen" unique_id=1050931599]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="GameState" type="Node" parent="." unique_id=250483524]
 script = ExtResource("1_jjgbg")
+
+[node name="BackGroundMusic" type="AudioStreamPlayer" parent="." unique_id=2144539215]
+stream = ExtResource("3_8gbba")
+
+[node name="AttackSFX" type="AudioStreamPlayer" parent="." unique_id=1178489174]
+stream = ExtResource("4_jjvhh")
