@@ -4,9 +4,10 @@ class_name GameState
 # ---/SIGNALS/---
 signal log_text(text: String)
 signal stats_changed(hp, max_hp, deck_count, deck_max, gold)
-signal inventory_changed(weapon, potion)
-signal room_updated(room_symbols: Array, deck: Array)
+signal inventory_changed(weapon: Dictionary, potion: Dictionary)
+signal room_updated(room: Array)
 signal game_over(_game_over)
+signal player_wins(_player_wins)
 
 # ---/CONSTANTS/---
 const SPADES = "♠"
@@ -15,8 +16,8 @@ const HEARTS = "♥"
 const DIAMONDS = "♦"
 
 # ---/NUMBER VARIABLES/---
-var hp = 20
-var max_hp = 20
+var hp = 1000
+var max_hp = 1000
 var gold = 0
 var deck_count: int = 0
 var deck_max: int = 42
@@ -24,28 +25,24 @@ var deck_max: int = 42
 var card_position = 0
 var _initialized = false
 var _game_over = false
+var _player_wins = false
 
 # ---/ITEM STATE/---
-var weapon = ""
-var potion = ""
-var true_weapon = null
-var true_potion = null
+var weapon = {}
+var potion = {}
+
+# ---/ROOM CARDS/---
+var card_1 = ""
+var card_2 = ""
+var card_3 = ""
+var card_4 = ""
 
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
-var deck_symbols: Array = []
-
 var room: Array = []
-var room_symbols: Array = []
-
-var items: Array = [true_weapon, true_potion]
-var items_symbols: Array = []
-
+var items: Array = [weapon, potion]
 var enemies: Array = []
-var enemies_symbols:Array = []
-
 var discard: Array = []
-var discard_symbols: Array = []
 
 
 var card_data: Dictionary = {
@@ -110,53 +107,26 @@ func _say(text: String) -> void:
 	emit_signal("log_text", text)
 
 func _emit_inventory() -> void:
-	_emit_symbols()
+	items.set(0, weapon)
+	items.set(1, potion)
 	emit_signal("inventory_changed", weapon, potion)
 
 func _emit_deck() -> void:
 	emit_signal("send_deck", deck)
 
 func _emit_room() -> void:
-	_emit_symbols()
-	_emit_inventory()
-	emit_signal("room_updated", room_symbols, deck)
+	emit_signal("room_updated", room)
 
 func _emit_stats() -> void:
-	_emit_symbols()
 	emit_signal("stats_changed", hp, max_hp, deck_count, deck_max, gold)
 
 func _emit_game_over() -> void:
 	_game_over = true
 	emit_signal("game_over", _game_over)
 
-func _emit_symbols() -> void:
-	deck_symbols.clear()
-	room_symbols.clear()
-	items_symbols.clear()
-
-	for key in deck:
-		var card = key
-		var symbol = card.id
-		deck_symbols.append(symbol)
-		
-	for key in room:
-		var card = key
-		var symbol = card.id
-		room_symbols.append(symbol)
-		
-	for key in items:
-		if true_weapon == null:
-			weapon = null
-			continue
-			var card = key
-			var symbol = card.id
-			items_symbols.append(symbol)
-		if true_potion == null:
-			potion = null
-			continue
-			var card = key
-			var symbol = card.id
-			items_symbols.append(symbol)
+func _emit_win() -> void:
+	_player_wins = true
+	emit_signal("player_wins", _player_wins)
 
 # ---/INPUT HANDLING/---
 func _unhandled_input(event: InputEvent) -> void:
@@ -211,100 +181,114 @@ func generate_deck() -> void:
 			card_values.erase("suit")
 			deck.append(card_values)
 	deck.shuffle()
-	_say("▻THE DECK HAS BEEN SHUFFLED.\n\n")
+	_say("▻THE DECK HAS BEEN SHUFFLED\n\n")
 	deck_count = deck.size()
 	_emit_stats()
 	fill_room()
 
 func fill_room() -> void:
-	while room.size() < 4:
-		var card = deck[0]
-		var position = card_position
-		if _initialized == false:
-			room.append(card)
-		else:
-			room.insert(position, card)
-		deck.remove_at(0)
-	card_position = 4
-	_initialized = true
+	if deck.size() > 0:
+		while room.size() < 4:
+			var card = deck[0]
+			var position = card_position
+		
+			if _initialized == false:
+				room.append(card)
+			else:
+				room.insert(position, card)
+			
+			deck.remove_at(0)
+		
+		card_position = 4
+		_initialized = true
+	if deck.size() == 0:
+		_emit_win()
+	
 	_emit_stats()
 	_emit_room()
 
 func choose_card() -> void:
 	var card = room[card_position]
-	var symbol = str(card.id)
-	var current_weapon = weapon
-	var current_potion = potion
 	
 	if card.type == "enemy":
-		attack(card, symbol)
+		attack(card)
 	elif card.type == "weapon":
-		if weapon != "":
-			items.remove_at(0)
+		if weapon != {}:
 			discard.append(card)
-			_say("▻DISCARDED WEAPON (" + current_weapon + ")\n\n")
-		items.insert(0, card)
-		weapon = symbol
-		true_weapon = card
-		_say("▻EQUIPPED WEAPON (" + symbol + ")\n\n")
+			_say("▻DISCARDED WEAPON (" + weapon.id + ")\n\n")
+		weapon = card
+		_say("▻EQUIPPED WEAPON (" + weapon.id + ")\n\n")
 	elif card.type == "potion":
-		true_weapon = card
-		if true_potion != null:
-			items.remove_at(1)
-			items.insert(1, card)
+		if potion != {}:
+			_say("▻DISCARDED POTION (" + potion.id + ")\n\n")
 			discard.append(card)
-			_say("▻DISCARDED POTION (" + current_potion + ")\n\n")
-		else:
-			items.insert(1, card)
-			true_weapon = card
-		potion = symbol
-		_say("▻EQUIPPED POTION (" + symbol + ")\n\n")
+		potion = card
+		_say("▻EQUIPPED POTION (" + potion.id + ")\n\n")
 	_emit_inventory()
 	room.remove_at(card_position)
 	fill_room()
 
 func enter_room() -> void:
 	generate_deck()
+	_emit_inventory()
 
 # ---/ACTIONS/---
-func attack(enemy: Dictionary, symbol: String) -> void:
-	var enemy_hp = enemy.value
+func attack(enemy: Dictionary) -> void:
+	var enemy_atk = enemy.value
 	var old_hp = hp
 	var weapon_dmg = 0
+
+	if weapon != {}:
+		weapon_dmg = weapon.value
 	
-	if weapon != "":
-		weapon_dmg = items[0].value
-		
-	var hit_dmg = max(enemy_hp - weapon_dmg, 0)
-	hp = max(old_hp - hit_dmg, 0)
+	var dmg_taken = max(enemy_atk - weapon_dmg, 0)
+	
+	hp = max(old_hp - dmg_taken, 0)
+	
 	if hp == 0:
 		_emit_game_over()
+		return
+	
+	if weapon == {}:
+		_say("▻YOU ATTACK BAREHANDED\n\n")
+	else:
+		_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") WITH YOUR WEAPON (" + str(weapon.id) + ")\n\n")
+		
+	if dmg_taken == 0:
+		_say("▻YOU TAKE NO DAMAGE\n\n")
+	else:
+		_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
+	
+	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED\n\n")
+	
+	if weapon != {}:
+		_say("▻WEAPON (" + str(weapon.id) + ") WAS DESTROYED\n\n")
+	
+	discard.append(enemy)
+	discard.append(weapon)
+	
+	weapon = {}
 	
 	_emit_inventory()
-	_say("▻DEFEATED ENEMY (" + symbol + ")\n\n")
-	if weapon != "":
-		_say("▻WEAPON (" + str(weapon) + ") WAS DESTROYED\n\n")
-		items.remove_at(0)
-		
-	if hit_dmg == 0:
-		_say("▻NO DAMAGE TAKEN\n\n")
-	else:
-		_say("▻(" + str(hit_dmg) + ") DAMAGE TAKEN\n\n")
-	weapon = ""
+	_emit_stats()
 
 func use_potion() -> void:
 	var old_hp = hp
-	var _potion = true_potion
 	var heal_amount = 0
-	if potion == "":
-		_say("NO POTION IN INVENTORY\n\n")
+	
+	if potion == {}:
+		_say("▻NO POTION IN INVENTORY\n\n")
 		return
-	var symbol = potion
-	if _potion.value is not int:
-		heal_amount = 0
-	else:
-		heal_amount = int(_potion.value)
-	hp = max(old_hp + heal_amount, max_hp)
-	true_potion = null
+	
+	if potion != {}:
+		heal_amount = int(potion.value)
+	
+	hp = min(old_hp + heal_amount, max_hp)
+	
+	_say("▻USED POTION (" + str(potion.id) + ") - GAINED " + str(heal_amount) + " HP\n\n")
+	
+	discard.append(potion)
+	potion = {}
+	
 	_emit_inventory()
-	_say("USED POTION (" + str(symbol) + ") - GAINED " + str(heal_amount) + " HP\n\n")
+	_emit_stats()

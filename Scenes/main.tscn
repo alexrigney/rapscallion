@@ -35,7 +35,68 @@ grow_end = -3.0
 vertical = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21xkr"]
-bg_color = Color(0.2231029, 0.2231029, 0.22310278, 1)
+bg_color = Color(0.22352941, 0.22352941, 0.22352941, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6bp64"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_344ge"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="FontFile" id="FontFile_jjvhh"]
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ynf5e"]
+bg_color = Color(0.14767182, 0.14767182, 0.14767176, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hptm8"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1ilt"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
 bg_color = Color(0.12591082, 0.12591085, 0.12591076, 1)
@@ -70,14 +131,19 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
 
-[node name="TextMargin" type="MarginContainer" parent="MainBody/LogContainerMargin/LogContainer" unique_id=1543781834]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainBody/LogContainerMargin/LogContainer" unique_id=928363174]
 layout_mode = 2
+
+[node name="TextMargin" type="MarginContainer" parent="MainBody/LogContainerMargin/LogContainer/ScrollContainer" unique_id=1543781834]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 0
 
-[node name="TextLog" type="RichTextLabel" parent="MainBody/LogContainerMargin/LogContainer/TextMargin" unique_id=2092176170]
+[node name="TextLog" type="RichTextLabel" parent="MainBody/LogContainerMargin/LogContainer/ScrollContainer/TextMargin" unique_id=2092176170]
 unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
@@ -139,24 +205,12 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
-[node name="RoomMargin" type="MarginContainer" parent="MainBody" unique_id=1550647451]
-custom_minimum_size = Vector2(650, 150)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="RoomLabelMargin" type="Label" parent="MainBody/RoomMargin" unique_id=1700883891]
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "ROOM"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="RoomInfoMargin" type="MarginContainer" parent="MainBody" unique_id=91645195]
 custom_minimum_size = Vector2(650, 487)
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 31
 theme_override_constants/margin_bottom = 150
 
 [node name="RoomInfoLabel" type="HBoxContainer" parent="MainBody/RoomInfoMargin" unique_id=536191334]
@@ -199,6 +253,98 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PlayerInfoMargin" type="MarginContainer" parent="MainBody" unique_id=600340234]
+custom_minimum_size = Vector2(650, 487)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_bottom = 10
+
+[node name="PlayerInfo" type="HBoxContainer" parent="MainBody/PlayerInfoMargin" unique_id=925087642]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="DeckLabel" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=1867162886]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/DeckLabel" unique_id=1802540515]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_344ge")
+text = "DECK COUNT"
+horizontal_alignment = 1
+
+[node name="Weapon" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=1193184984]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.972549, 0, 0.22352941, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = SubResource("FontFile_jjvhh")
+theme_override_font_sizes/normal_font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1395674259]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ynf5e")
+text = "WEAPON"
+horizontal_alignment = 1
+
+[node name="Potion" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=467346728]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.972549, 0, 0.22352941, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = SubResource("FontFile_jjvhh")
+theme_override_font_sizes/normal_font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Potion" unique_id=1469717316]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hptm8")
+text = "POTION"
+horizontal_alignment = 1
+
+[node name="DiscardLabel" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=501278342]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/DiscardLabel" unique_id=1297183575]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_d1ilt")
+text = "DISCARD PILE"
+horizontal_alignment = 1
+
 [node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
 unique_name_in_owner = true
 visible = false
@@ -221,6 +367,31 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 100
 text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerWinsScreen" type="Panel" parent="MainBody" unique_id=1875142742]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
+
+[node name="Label" type="Label" parent="MainBody/PlayerWinsScreen" unique_id=839504360]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "YOU WIN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
