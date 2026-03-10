@@ -6,6 +6,7 @@ signal log_text(text: String)
 signal stats_changed(hp, max_hp, deck_count, deck_max, gold)
 signal inventory_changed(weapon: Dictionary, potion: Dictionary)
 signal room_updated(room: Array)
+signal next_room(_next_room)
 signal game_over(_game_over)
 signal player_wins(_player_wins)
 
@@ -22,20 +23,18 @@ var gold = 0
 var deck_count: int = 0
 var deck_max: int = 42
 
+var card_count = 0
+
 var card_position = 0
 var _initialized = false
+var _next_room = false
 var _game_over = false
 var _player_wins = false
+var _ui_locked = true
 
 # ---/ITEM STATE/---
 var weapon = {}
 var potion = {}
-
-# ---/ROOM CARDS/---
-var card_1 = ""
-var card_2 = ""
-var card_3 = ""
-var card_4 = ""
 
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
@@ -44,7 +43,7 @@ var items: Array = [weapon, potion]
 var enemies: Array = []
 var discard: Array = []
 
-
+# ---/CARD DATA/---
 var card_data: Dictionary = {
 	SPADES:{
 		"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
@@ -111,11 +110,13 @@ func _emit_inventory() -> void:
 	items.set(1, potion)
 	emit_signal("inventory_changed", weapon, potion)
 
-func _emit_deck() -> void:
-	emit_signal("send_deck", deck)
-
 func _emit_room() -> void:
 	emit_signal("room_updated", room)
+
+func _emit_next_room() -> void:
+	_next_room = true
+	_ui_locked = true
+	emit_signal("next_room", _next_room)
 
 func _emit_stats() -> void:
 	emit_signal("stats_changed", hp, max_hp, deck_count, deck_max, gold)
@@ -130,18 +131,19 @@ func _emit_win() -> void:
 
 # ---/INPUT HANDLING/---
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		match event.keycode:
-			KEY_1:
-				handle_command("first")
-			KEY_2:
-				handle_command("second")
-			KEY_3:
-				handle_command("third")
-			KEY_4:
-				handle_command("fourth")
-			KEY_P:
-				handle_command("heal")
+	if _ui_locked == false:
+		if event is InputEventKey and event.pressed and not event.echo:
+			match event.keycode:
+				KEY_1:
+					handle_command("first")
+				KEY_2:
+					handle_command("second")
+				KEY_3:
+					handle_command("third")
+				KEY_4:
+					handle_command("fourth")
+				KEY_P:
+					handle_command("heal")
 
 func handle_command(command: String) -> void:
 	match command:
@@ -187,45 +189,58 @@ func generate_deck() -> void:
 	fill_room()
 
 func fill_room() -> void:
+	if card_count == 3:
+		_emit_next_room()
+		return
+	
 	if deck.size() > 0:
-		while room.size() < 4:
-			var card = deck[0]
-			var position = card_position
-		
-			if _initialized == false:
+		if _initialized == false:
+			while room.size() < 4:
+				var card = deck[0]
 				room.append(card)
-			else:
-				room.insert(position, card)
-			
-			deck.remove_at(0)
-		
-		card_position = 4
-		_initialized = true
-	if deck.size() == 0:
-		_emit_win()
+				deck.remove_at(0)
+			_initialized = true
+		#else:
+			#if room.size() < 2:
+				#while room.size() < 4:
+					#var card = deck[0]
+					#var position = card_position
+					#room.insert(position, card)
+					#deck.remove_at(0)
 	
 	_emit_stats()
 	_emit_room()
+
+	if deck.size() == 0:
+		_emit_win()
 
 func choose_card() -> void:
 	var card = room[card_position]
 	
 	if card.type == "enemy":
 		attack(card)
+		
 	elif card.type == "weapon":
 		if weapon != {}:
 			discard.append(card)
 			_say("▻DISCARDED WEAPON (" + weapon.id + ")\n\n")
 		weapon = card
 		_say("▻EQUIPPED WEAPON (" + weapon.id + ")\n\n")
+		
 	elif card.type == "potion":
 		if potion != {}:
 			_say("▻DISCARDED POTION (" + potion.id + ")\n\n")
 			discard.append(card)
 		potion = card
 		_say("▻EQUIPPED POTION (" + potion.id + ")\n\n")
+		
 	_emit_inventory()
-	room.remove_at(card_position)
+	room[card_position] = {}
+	
+	for c in room:
+		if c.size() == 0:
+			card_count += 1
+	
 	fill_room()
 
 func enter_room() -> void:

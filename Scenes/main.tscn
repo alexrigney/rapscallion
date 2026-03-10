@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
+[ext_resource type="Theme" uid="uid://dxdk0vltuxo8a" path="res://Themes/card_theme.tres" id="2_21xkr"]
+[ext_resource type="StyleBox" uid="uid://cgkqrrv7cdbpx" path="res://Themes/card_label.tres" id="2_kry3j"]
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
 
@@ -34,22 +36,6 @@ grow_begin = -3.0
 grow_end = -3.0
 vertical = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_21xkr"]
-bg_color = Color(0.22352941, 0.22352941, 0.22352941, 0)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_blend = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6bp64"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_blend = true
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_344ge"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
 border_width_left = 1
@@ -57,22 +43,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_blend = true
-
-[sub_resource type="FontFile" id="FontFile_jjvhh"]
-cache/0/variation_coordinates = {}
-cache/0/face_index = 0
-cache/0/embolden = 0.0
-cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
-cache/0/spacing_top = 0
-cache/0/spacing_bottom = 0
-cache/0/spacing_space = 0
-cache/0/spacing_glyph = 0
-cache/0/baseline_offset = 0.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ynf5e"]
 bg_color = Color(0.14767182, 0.14767182, 0.14767176, 1)
@@ -213,43 +183,46 @@ size_flags_vertical = 0
 theme_override_constants/margin_top = 31
 theme_override_constants/margin_bottom = 150
 
-[node name="RoomInfoLabel" type="HBoxContainer" parent="MainBody/RoomInfoMargin" unique_id=536191334]
+[node name="RoomRow" type="HBoxContainer" parent="MainBody/RoomInfoMargin" unique_id=536191334]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 4
 alignment = 1
 
-[node name="Card1" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=999595038]
+[node name="Card1" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=139717335]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
-theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+theme = ExtResource("2_21xkr")
+theme_override_styles/normal = ExtResource("2_kry3j")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Card2" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=1475274254]
+[node name="Card2" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=1379736783]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
-theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+theme_override_styles/normal = ExtResource("2_kry3j")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Card3" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=1108126720]
+[node name="Card3" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=1659194915]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
-theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+theme_override_styles/normal = ExtResource("2_kry3j")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Card4" type="Label" parent="MainBody/RoomInfoMargin/RoomInfoLabel" unique_id=2099132707]
+[node name="Card4" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=58686951]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 70
-theme_override_styles/normal = SubResource("StyleBoxFlat_21xkr")
+theme_override_styles/normal = ExtResource("2_kry3j")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -261,6 +234,7 @@ size_flags_vertical = 8
 theme_override_constants/margin_bottom = 10
 
 [node name="PlayerInfo" type="HBoxContainer" parent="MainBody/PlayerInfoMargin" unique_id=925087642]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 8
 alignment = 1
@@ -269,7 +243,7 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -287,11 +261,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_colors/default_color = Color(0.972549, 0, 0.22352941, 1)
-theme_override_constants/outline_size = 1
-theme_override_fonts/normal_font = SubResource("FontFile_jjvhh")
-theme_override_font_sizes/normal_font_size = 70
-theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -309,11 +279,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_colors/default_color = Color(0.972549, 0, 0.22352941, 1)
-theme_override_constants/outline_size = 1
-theme_override_fonts/normal_font = SubResource("FontFile_jjvhh")
-theme_override_font_sizes/normal_font_size = 70
-theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -331,7 +297,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_6bp64")
+theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -344,6 +310,18 @@ grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_d1ilt")
 text = "DISCARD PILE"
 horizontal_alignment = 1
+
+[node name="NextRoomBtnMargin" type="MarginContainer" parent="MainBody/PlayerInfoMargin" unique_id=26152330]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="NextRoomBtn" type="Button" parent="MainBody/PlayerInfoMargin/NextRoomBtnMargin" unique_id=846358075]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 8
+text = "NEXT ROOM"
 
 [node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
 unique_name_in_owner = true
@@ -403,3 +381,5 @@ stream = ExtResource("3_8gbba")
 
 [node name="AttackSFX" type="AudioStreamPlayer" parent="." unique_id=1178489174]
 stream = ExtResource("4_jjvhh")
+
+[connection signal="pressed" from="MainBody/PlayerInfoMargin/NextRoomBtnMargin/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
