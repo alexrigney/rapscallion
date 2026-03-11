@@ -3,9 +3,12 @@ class_name GameState
 
 # ---/SIGNALS/---
 signal log_text(text: String)
-signal stats_changed(hp, max_hp, deck_count, deck_max, gold)
+
+signal stats_changed(hp, max_hp, gold, deck, deck_max, discard)
 signal inventory_changed(weapon: Dictionary, potion: Dictionary)
+
 signal room_updated(room: Array)
+
 signal next_room(_next_room)
 signal game_over(_game_over)
 signal player_wins(_player_wins)
@@ -22,7 +25,6 @@ var max_hp = 1000
 var gold = 0
 var deck_count: int = 0
 var deck_max: int = 42
-
 var card_count = 0
 var card_position = 0
 
@@ -32,14 +34,17 @@ var _game_over = false
 var _player_wins = false
 var _ui_locked = false
 
-# ---/ITEM STATE/---
+# ---/CARD STATE/---
 var weapon = {}
 var potion = {}
+
+var card_retained = {}
+var retained_position = 0
 
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
 var room: Array = []
-var items: Array = [weapon, potion]
+var inventory: Array = [weapon, potion]
 var enemies: Array = []
 var discard: Array = []
 
@@ -106,8 +111,7 @@ func _say(text: String) -> void:
 	emit_signal("log_text", text)
 
 func _emit_inventory() -> void:
-	items.set(0, weapon)
-	items.set(1, potion)
+	inventory = [weapon, potion]
 	emit_signal("inventory_changed", weapon, potion)
 
 func _emit_room() -> void:
@@ -119,7 +123,7 @@ func _emit_next_room() -> void:
 	emit_signal("next_room", _next_room)
 
 func _emit_stats() -> void:
-	emit_signal("stats_changed", hp, max_hp, deck_count, deck_max, gold)
+	emit_signal("stats_changed", hp, max_hp, gold, deck, deck_max, discard)
 
 func _emit_game_over() -> void:
 	_game_over = true
@@ -144,6 +148,8 @@ func _unhandled_input(event: InputEvent) -> void:
 					handle_command("fourth")
 				KEY_P:
 					handle_command("heal")
+				KEY_F:
+					handle_command("flee")
 
 func handle_command(command: String) -> void:
 	match command:
@@ -161,6 +167,8 @@ func handle_command(command: String) -> void:
 			choose_card()
 		"heal":
 			use_potion()
+		"flee":
+			flee()
 
 # ---/ROOM HELPERS/
 func generate_deck() -> void:
@@ -182,31 +190,52 @@ func generate_deck() -> void:
 				card_values.name = (card_name + " of Diamonds")
 			card_values.erase("suit")
 			deck.append(card_values)
+			
 	deck.shuffle()
 	_say("▻THE DECK HAS BEEN SHUFFLED\n\n")
+	
 	deck_count = deck.size()
 	_emit_stats()
 	fill_room()
 
 func fill_room() -> void:
-	if deck.size() > 0:
-		#if _initialized == false:
+	if deck.size() > 3:
+		if _initialized == false:
 			while room.size() < 4:
 				var card = deck[0]
 				room.append(card)
 				deck.remove_at(0)
-			#_initialized = true
-		#else:
-			#if room.size() <= 1:
-				#while room.size() < 4:
-					#var card = deck[0]
-					#var position = card_position
-					#room.insert(position, card)
-					#deck.remove_at(0)
-	
+			_initialized = true
+		else:
+			card_count = 0
+			for c in room:
+				if c != {}:
+					card_retained = c
+					retained_position = room.find(c)
+			room.clear()
+			while room.size() < 3:
+				var card = deck[0]
+				room.append(card)
+				deck.remove_at(0)
+				
+			room.insert(int(retained_position), card_retained)
+	else:
+		while deck.size() > 0:
+			var card = deck[0]
+			card_count = 0
+			for c in room:
+				if c != {}:
+					card_retained = c
+					retained_position = room.find(c)
+			room.clear()
+			room.append(card)
+			deck.remove_at(0)
+				
+			room.insert(int(retained_position), card_retained)
+			
 	_emit_stats()
 	_emit_room()
-
+	
 	if deck.size() == 0:
 		_emit_win()
 
@@ -214,30 +243,33 @@ func choose_card() -> void:
 	var card = room[card_position]
 	if card == {}:
 		return
-	
+		
 	if card.type == "enemy":
 		attack(card)
 		
 	elif card.type == "weapon":
 		if weapon != {}:
-			discard.append(card)
+			discard.append(weapon)
 			_say("▻DISCARDED WEAPON (" + weapon.id + ")\n\n")
 		weapon = card
+		card_count += 1
 		_say("▻EQUIPPED WEAPON (" + weapon.id + ")\n\n")
 		
 	elif card.type == "potion":
 		if potion != {}:
+			discard.append(potion)
 			_say("▻DISCARDED POTION (" + potion.id + ")\n\n")
-			discard.append(card)
 		potion = card
+		card_count += 1
 		_say("▻EQUIPPED POTION (" + potion.id + ")\n\n")
-		
+	
+	_emit_stats()
 	_emit_inventory()
 	room[card_position] = {}
-	card_count += 1
 	_emit_room()
+	
 	if card_count == 3:
-		fill_room()
+		_emit_next_room()
 
 func enter_room() -> void:
 	generate_deck()
@@ -273,13 +305,13 @@ func attack(enemy: Dictionary) -> void:
 	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED\n\n")
 	
 	if weapon != {}:
+		discard.append(weapon)
 		_say("▻WEAPON (" + str(weapon.id) + ") WAS DESTROYED\n\n")
 	
 	discard.append(enemy)
-	discard.append(weapon)
-	
+		
 	weapon = {}
-	
+	card_count += 1
 	_emit_inventory()
 	_emit_stats()
 
@@ -303,3 +335,16 @@ func use_potion() -> void:
 	
 	_emit_inventory()
 	_emit_stats()
+
+func flee() -> void:
+	if deck.size() < 4:
+		_say("YOU CANNOT FLEE")
+		return
+	
+	for card in room:
+		deck.append(card)
+	
+	room.clear()
+	_initialized = false
+	fill_room()
+	_say("▻YOU FLED THE ROOM\n\n")

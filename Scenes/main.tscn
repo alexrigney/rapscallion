@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
 [ext_resource type="Theme" uid="uid://dxdk0vltuxo8a" path="res://Themes/card_theme.tres" id="2_21xkr"]
-[ext_resource type="StyleBox" uid="uid://cgkqrrv7cdbpx" path="res://Themes/card_label.tres" id="2_kry3j"]
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
 
@@ -69,7 +68,7 @@ border_width_bottom = 1
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
-bg_color = Color(0.12591082, 0.12591085, 0.12591076, 1)
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.25490198)
 
 [node name="GameUI" type="Control" unique_id=915763936]
 layout_mode = 3
@@ -142,38 +141,25 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=301977410]
+[node name="VSeparator1" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=837647594]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
-[node name="DeckCountLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=64826842]
+[node name="GoldLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=463055657]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
-horizontal_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=2085286426]
+[node name="VSeparator2" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=794492760]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
-[node name="WeaponLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=80962034]
+[node name="RoomNumberLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=1894627194]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
-horizontal_alignment = 1
-
-[node name="VSeparator3" type="VSeparator" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=837647594]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
-
-[node name="PotionLabel" type="Label" parent="MainBody/StatMargin/RunInfoBox/StatRow" unique_id=463055657]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(115, 0)
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
-horizontal_alignment = 1
 
 [node name="RoomInfoMargin" type="MarginContainer" parent="MainBody" unique_id=91645195]
 custom_minimum_size = Vector2(650, 487)
@@ -188,43 +174,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
-
-[node name="Card1" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=139717335]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
-theme = ExtResource("2_21xkr")
-theme_override_styles/normal = ExtResource("2_kry3j")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Card2" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=1379736783]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
-theme_override_styles/normal = ExtResource("2_kry3j")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Card3" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=1659194915]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
-theme_override_styles/normal = ExtResource("2_kry3j")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Card4" type="RichTextLabel" parent="MainBody/RoomInfoMargin/RoomRow" unique_id=58686951]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
-theme_override_styles/normal = ExtResource("2_kry3j")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="PlayerInfoMargin" type="MarginContainer" parent="MainBody" unique_id=600340234]
 custom_minimum_size = Vector2(650, 487)
@@ -344,7 +293,8 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 100
+theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
+theme_override_font_sizes/font_size = 150
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -369,7 +319,8 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 100
+theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
+theme_override_font_sizes/font_size = 150
 text = "YOU WIN"
 horizontal_alignment = 1
 vertical_alignment = 1
