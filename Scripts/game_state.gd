@@ -24,13 +24,13 @@ var deck_count: int = 0
 var deck_max: int = 42
 
 var card_count = 0
-
 var card_position = 0
+
 var _initialized = false
 var _next_room = false
 var _game_over = false
 var _player_wins = false
-var _ui_locked = true
+var _ui_locked = false
 
 # ---/ITEM STATE/---
 var weapon = {}
@@ -189,19 +189,15 @@ func generate_deck() -> void:
 	fill_room()
 
 func fill_room() -> void:
-	if card_count == 3:
-		_emit_next_room()
-		return
-	
 	if deck.size() > 0:
-		if _initialized == false:
+		#if _initialized == false:
 			while room.size() < 4:
 				var card = deck[0]
 				room.append(card)
 				deck.remove_at(0)
-			_initialized = true
+			#_initialized = true
 		#else:
-			#if room.size() < 2:
+			#if room.size() <= 1:
 				#while room.size() < 4:
 					#var card = deck[0]
 					#var position = card_position
@@ -216,6 +212,8 @@ func fill_room() -> void:
 
 func choose_card() -> void:
 	var card = room[card_position]
+	if card == {}:
+		return
 	
 	if card.type == "enemy":
 		attack(card)
@@ -236,12 +234,10 @@ func choose_card() -> void:
 		
 	_emit_inventory()
 	room[card_position] = {}
-	
-	for c in room:
-		if c.size() == 0:
-			card_count += 1
-	
-	fill_room()
+	card_count += 1
+	_emit_room()
+	if card_count == 3:
+		fill_room()
 
 func enter_room() -> void:
 	generate_deck()

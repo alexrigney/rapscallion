@@ -761,6 +761,16 @@ cache/0/100/0/glyphs/49/offset = Vector2(8, -73)
 cache/0/100/0/glyphs/49/size = Vector2(62, 74)
 cache/0/100/0/glyphs/49/uv_rect = Rect2(698, 1, 62, 74)
 cache/0/100/0/glyphs/49/texture_idx = 0
+cache/0/50/0/ascent = 54.0
+cache/0/50/0/descent = 15.0
+cache/0/50/0/underline_position = 3.046875
+cache/0/50/0/underline_thickness = 1.21875
+cache/0/50/0/scale = 1.0
+cache/0/50/0/glyphs/3/advance = Vector2(13, 68)
+cache/0/50/0/glyphs/3/offset = Vector2(0, 0)
+cache/0/50/0/glyphs/3/size = Vector2(0, 0)
+cache/0/50/0/glyphs/3/uv_rect = Rect2(0, 0, 0, 0)
+cache/0/50/0/glyphs/3/texture_idx = -1
 
 [sub_resource type="FontVariation" id="FontVariation_bthfx"]
 base_font = SubResource("FontFile_jfid1")
@@ -775,7 +785,7 @@ variation_transform = Transform2D(1, 0.2, 0, 1, 0, 0)
 base_font = SubResource("FontFile_jfid1")
 variation_transform = Transform2D(1, 0.2, 0, 1, 0, 0)
 
-[sub_resource type="Image" id="Image_7vo47"]
+[sub_resource type="Image" id="Image_jfid1"]
 data = {
 "data": PackedByteArray("/////////////////////w=="),
 "format": "RGBA8",
@@ -785,7 +795,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_njk14"]
-image = SubResource("Image_7vo47")
+image = SubResource("Image_jfid1")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfnos"]
 bg_color = Color(0.16470589, 0.16470589, 0.16470589, 0.6392157)

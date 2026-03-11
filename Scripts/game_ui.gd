@@ -19,7 +19,6 @@ extends Control
 @onready var card_3: RichTextLabel = %Card3
 @onready var card_4: RichTextLabel = %Card4
 
-@onready var next_room_prompt: Panel = %NextRoomPrompt
 @onready var next_room_btn: Button = %NextRoomBtn
 
 @onready var game_over_screen: Panel = %GameOverScreen
@@ -66,7 +65,7 @@ func _on_room_updated(room: Array) -> void:
 		room_row.add_child(c)
 
 func move_next(_next_room) -> void:
-	pass
+	next_room_btn.visible = true
 
 func _on_stats_changed(hp: int, max_hp: int, gold: int, deck_count: int, deck_max: int) -> void:
 	hp_label.text = "HP: %d/%d" % [hp, max_hp]
