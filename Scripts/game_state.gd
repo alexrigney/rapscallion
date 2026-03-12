@@ -4,7 +4,7 @@ class_name GameState
 # ---/SIGNALS/---
 signal log_text(text: String)
 
-signal stats_changed(hp, max_hp, gold, deck, deck_max, discard)
+signal stats_changed(hp, max_hp, gold, room_number, deck, deck_max, discard)
 signal inventory_changed(weapon: Dictionary, potion: Dictionary)
 
 signal room_updated(room: Array)
@@ -24,12 +24,11 @@ var hp = 1000
 var max_hp = 1000
 var gold = 0
 var deck_count: int = 0
-var deck_max: int = 42
+var deck_max: int = 0
 var card_count = 0
 var card_position = 0
 var room_number = 0
 
-var _initialized = false
 var _next_room = false
 var _game_over = false
 var _player_wins = false
@@ -52,6 +51,7 @@ var discard: Array = []
 # ---/CARD DATA/---
 var card_data: Dictionary = {
 	SPADES:{
+		"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14},
 		"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
 		"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
 		"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
@@ -66,6 +66,7 @@ var card_data: Dictionary = {
 		"2":	{"id":"2", "name":"Two", "type":"enemy","value":2}
 		},
 	CLUBS:{
+		"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14},
 		"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
 		"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
 		"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
@@ -105,7 +106,8 @@ var card_data: Dictionary = {
 
 # ---/LIFECYCLE/---
 func start_game() -> void:
-	enter_room()
+	generate_deck()
+	_emit_inventory()
 
 # ---/EMISSIONS/---
 func _say(text: String) -> void:
@@ -124,7 +126,7 @@ func _emit_next_room() -> void:
 	emit_signal("next_room", _next_room)
 
 func _emit_stats() -> void:
-	emit_signal("stats_changed", hp, max_hp, gold, deck, deck_max, discard)
+	emit_signal("stats_changed", hp, max_hp, gold, room_number, deck, deck_max, discard)
 
 func _emit_game_over() -> void:
 	_game_over = true
@@ -194,60 +196,92 @@ func generate_deck() -> void:
 			deck.append(card_values)
 	
 	deck.shuffle()
-	_say("▻THE DECK HAS BEEN SHUFFLED\n\n")
-	
+	deck_max = deck.size()
 	deck_count = deck.size()
 	_emit_stats()
-	fill_room()
+	fill()
 
-func fill_room() -> void:
+func fill() -> void:
+	deck.resize(6)
+	while room.size() < 4:
+		room.append(deck[0])
+		deck.remove_at(0)
+	_emit_room()
+	_emit_stats()
+
+func refill() -> void:
 	if deck.size() > 2:
-		if _initialized == false:
-			while room.size() < 4:
-				var card = deck[0]
-				room.append(card)
-				deck.remove_at(0)
-			_initialized = true
-			print("init draw")
-		else:
-			card_count = 0
-			for c in room:
-				if c != {}:
-					card_retained = c
-					retained_position = room.find(c)
-			room.clear()
-			while room.size() < 3:
-				var card = deck[0]
-				room.append(card)
-				deck.remove_at(0)
-				
-			room.insert(int(retained_position), card_retained)
-	else:
 		for c in room:
 			if c != {}:
 				card_retained = c
 				retained_position = room.find(c)
 		room.clear()
-		room.resize(4)
-		while deck.size() > 0:
-			var counter = 0
-			var card = deck[0]
-			room.insert(int(counter), card)
+		while room.size() < 3:
+			room.append(deck[0])
 			deck.remove_at(0)
-			counter += 1
-				
 		room.insert(int(retained_position), card_retained)
-		
+	else:
+		print("DECK BEFORE END: " + str(deck))
+		print("\nROOM BEFORE END: " + str(room))
+		var final_room: Array = []
+		final_room.resize(4)
+		print("\nEMPTY COPY PROOF: " + str(final_room))
 		for c in room:
-			if c == null:
-				c = {}
+			if c == {}:
+				if deck.size() > 0:
+					var card = deck[0]
+					print("\nCARD TO BE DRAWN: " + str(card.id))
+					var position = room.find(c)
+					print("\nFOUND VACANCY AT POSITION " + str(position) + " IN ROOM")
+					print("\nEMULATING VACANT VALUE'S POSITION IN ROOM COPY")
+					print("\nDREW & INSERTED " + str(card.id) + " AT POSITION " + str(position) + " IN ROOM COPY")
+					final_room.insert(position, card)
+					deck.remove_at(0)
+					print("\nDECK SIZE: " + str(deck.size()))
+					print("\nROOM COPY AFTER CARD APPENDED: " + str(final_room))
+					room[position] = {0:0}
+				elif deck.size() == 0:
+						print("\nDECK EMPTY--APPENDING REMAINING VACANT VALUES TO ROOM COPY")
+						var position = room.find(c)
+						print("\nFOUND VACANCY AT POSITION " + str(position) + " IN ROOM")
+						final_room.insert(position, c)
+						print("\n" + str(c) + " INSERTED AT POSITION " + str(position) + " IN ROOM COPY")
+						print("\nROOM COPY AFTER VACANCY APPENDED: " + str(final_room))
+						room[position] = {0:0}
+			elif c != {} and c != {0:0}:
+					card_retained = c
+					retained_position = room.find(c)
+					final_room.insert(retained_position, card_retained)
+					print("\nPROOF OF RETAINED CARD: " + str(card_retained.id) + " AT POSITION " + str(retained_position) + " IN ROOM")
+					print("\nRETAINED " + str(card_retained) + " AND INSERTED INTO ROOM COPY AT POSITION " + str(retained_position))
 		
-		print(room)
-			
-	_emit_stats()
+		final_room.resize(4)
+		room = final_room
+		print("\nROOM COPY CLAMPED TO " + str(final_room.size()))
+		print("\nPROOF OF EMPTY DECK: " + str(deck))
+		print("\nROOM COPY AT END: " + str(final_room))
+		print("PROOF OF NEW ROOM: " + str(room))
+		#print("DECK BEFORE END: " + str(deck))
+		#print("ROOM BEFORE END: " + str(room))
+		#while deck.size() > 0:
+			#var card = deck[0]
+			#print("NEXT CARD: " + str(card))
+			#for c in room:
+				#if c == {}:
+					#print("PROOF OF EMPTY: " + str(c))
+					#c = card
+					#print("PROOF OF OVERWRITE: " + str(c))
+					#deck.remove_at(0)
+		#print("DECK AFTER END: " + str(deck))
+		#print("ROOM AFTER END: " + str(room))
+		
+	room_number += 1
+		
 	_emit_room()
+	_emit_stats()
 	
 	if deck.size() == 0:
+		_emit_room()
 		_emit_win()
 
 func choose_card() -> void:
@@ -281,10 +315,7 @@ func choose_card() -> void:
 	
 	if card_count == 3:
 		_emit_next_room()
-
-func enter_room() -> void:
-	generate_deck()
-	_emit_inventory()
+		card_count = 0
 
 # ---/ACTIONS/---
 func attack(enemy: Dictionary) -> void:
@@ -357,6 +388,5 @@ func flee() -> void:
 			deck.append(card)
 	
 	room.clear()
-	_initialized = false
-	fill_room()
+	fill()
 	_say("▻YOU FLED THE ROOM\n\n")

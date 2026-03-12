@@ -21,7 +21,6 @@ extends Control
 
 @onready var state: GameState = $GameState
 
-var room_number = 1
 
 func _ready() -> void:
 	state.log_text.connect(say)
@@ -60,7 +59,7 @@ func _on_room_updated(room: Array) -> void:
 func move_next(_next_room) -> void:
 	next_room_btn.visible = true
 
-func _on_stats_changed(hp: int, max_hp: int, gold: int, deck: Array, deck_max: int, discard: Array) -> void:
+func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: Array, deck_max: int, discard: Array) -> void:
 	hp_label.text = "HP: %d/%d" % [hp, max_hp]
 	gold_label.text = "GOLD: %d" % [gold]
 	deck_label_.text = "%d/%d" % [deck.size(), deck_max]
@@ -92,8 +91,4 @@ func _on_next_room_btn_pressed() -> void:
 	next_room_btn.visible = false
 	state._ui_locked = false
 	state._next_room = false
-	
-	if state.room_number < 13:
-		state.room_number += 1
-		
-	state.fill_room()
+	state.refill()
