@@ -27,6 +27,7 @@ var deck_count: int = 0
 var deck_max: int = 42
 var card_count = 0
 var card_position = 0
+var room_number = 0
 
 var _initialized = false
 var _next_room = false
@@ -150,6 +151,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					handle_command("heal")
 				KEY_F:
 					handle_command("flee")
+					card_count = 0
 
 func handle_command(command: String) -> void:
 	match command:
@@ -190,7 +192,7 @@ func generate_deck() -> void:
 				card_values.name = (card_name + " of Diamonds")
 			card_values.erase("suit")
 			deck.append(card_values)
-			
+	
 	deck.shuffle()
 	_say("▻THE DECK HAS BEEN SHUFFLED\n\n")
 	
@@ -199,13 +201,14 @@ func generate_deck() -> void:
 	fill_room()
 
 func fill_room() -> void:
-	if deck.size() > 3:
+	if deck.size() > 2:
 		if _initialized == false:
 			while room.size() < 4:
 				var card = deck[0]
 				room.append(card)
 				deck.remove_at(0)
 			_initialized = true
+			print("init draw")
 		else:
 			card_count = 0
 			for c in room:
@@ -220,18 +223,26 @@ func fill_room() -> void:
 				
 			room.insert(int(retained_position), card_retained)
 	else:
+		for c in room:
+			if c != {}:
+				card_retained = c
+				retained_position = room.find(c)
+		room.clear()
+		room.resize(4)
 		while deck.size() > 0:
+			var counter = 0
 			var card = deck[0]
-			card_count = 0
-			for c in room:
-				if c != {}:
-					card_retained = c
-					retained_position = room.find(c)
-			room.clear()
-			room.append(card)
+			room.insert(int(counter), card)
 			deck.remove_at(0)
+			counter += 1
 				
-			room.insert(int(retained_position), card_retained)
+		room.insert(int(retained_position), card_retained)
+		
+		for c in room:
+			if c == null:
+				c = {}
+		
+		print(room)
 			
 	_emit_stats()
 	_emit_room()
@@ -342,7 +353,8 @@ func flee() -> void:
 		return
 	
 	for card in room:
-		deck.append(card)
+		if card != {}:
+			deck.append(card)
 	
 	room.clear()
 	_initialized = false

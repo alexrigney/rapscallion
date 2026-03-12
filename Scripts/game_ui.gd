@@ -93,7 +93,7 @@ func _on_next_room_btn_pressed() -> void:
 	state._ui_locked = false
 	state._next_room = false
 	
-	if room_number < 13:
-		room_number += 1
+	if state.room_number < 13:
+		state.room_number += 1
 		
 	state.fill_room()
