@@ -6,6 +6,9 @@
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.25490198)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
 bg_color = Color(0.099985994, 0.09998601, 0.099985965, 0.46666667)
 border_width_left = 1
@@ -44,7 +47,7 @@ border_width_bottom = 1
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ynf5e"]
-bg_color = Color(0.14767182, 0.14767182, 0.14767176, 1)
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -74,9 +77,6 @@ keycode = 4194309
 [sub_resource type="Shortcut" id="Shortcut_21xkr"]
 events = [SubResource("InputEventKey_kry3j")]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
-bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.25490198)
-
 [node name="GameUI" type="Control" unique_id=915763936]
 layout_mode = 3
 anchors_preset = 15
@@ -94,6 +94,58 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
+
+[node name="Label" type="Label" parent="MainBody/GameOverScreen" unique_id=1050931599]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
+theme_override_font_sizes/font_size = 150
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerWinsScreen" type="Panel" parent="MainBody" unique_id=1875142742]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
+
+[node name="Label" type="Label" parent="MainBody/PlayerWinsScreen" unique_id=839504360]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
+theme_override_font_sizes/font_size = 150
+text = "YOU WIN"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="LogContainerMargin" type="MarginContainer" parent="MainBody" unique_id=2127373242]
 custom_minimum_size = Vector2(503, 0)
@@ -224,10 +276,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 theme = ExtResource("2_21xkr")
+bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1395674259]
+[node name="WeaponLabel" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1395674259]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -236,6 +289,18 @@ grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_ynf5e")
 text = "WEAPON"
 horizontal_alignment = 1
+
+[node name="WeaponSymbol" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1356904095]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+offset_bottom = 25.0
+grow_horizontal = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Potion" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=467346728]
 unique_name_in_owner = true
@@ -287,57 +352,42 @@ size_flags_vertical = 8
 shortcut = SubResource("Shortcut_21xkr")
 text = "NEXT ROOM"
 
-[node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
+[node name="BarehandPromptMargin" type="MarginContainer" parent="MainBody/PlayerInfoMargin" unique_id=1310941449]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BarehandPromptContainer" type="VBoxContainer" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin" unique_id=1039954433]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
 
-[node name="Label" type="Label" parent="MainBody/GameOverScreen" unique_id=1050931599]
-custom_minimum_size = Vector2(500, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
-theme_override_font_sizes/font_size = 150
-text = "GAME OVER"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlayerWinsScreen" type="Panel" parent="MainBody" unique_id=1875142742]
-unique_name_in_owner = true
-visible = false
+[node name="BarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1633811766]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
-
-[node name="Label" type="Label" parent="MainBody/PlayerWinsScreen" unique_id=839504360]
-custom_minimum_size = Vector2(500, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
-theme_override_font_sizes/font_size = 150
-text = "YOU WIN"
+theme_override_constants/line_spacing = 0
+text = "WEAPON LIMIT TOO LOW.
+FIGHT BAREHANDED?"
 horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="BarehandYesNoRow" type="HBoxContainer" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1815270369]
+layout_mode = 2
+alignment = 1
+
+[node name="BarehandYes" type="Button" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow" unique_id=501634963]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "YES"
+
+[node name="BarehandNo" type="Button" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow" unique_id=896074659]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "NO"
 
 [node name="GameState" type="Node" parent="." unique_id=250483524]
 script = ExtResource("1_jjgbg")
@@ -349,3 +399,5 @@ stream = ExtResource("3_8gbba")
 stream = ExtResource("4_jjvhh")
 
 [connection signal="pressed" from="MainBody/PlayerInfoMargin/NextRoomBtnMargin/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
+[connection signal="pressed" from="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow/BarehandYes" to="." method="_on_barehand_yes_pressed"]
+[connection signal="pressed" from="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow/BarehandNo" to="." method="_on_barehand_no_pressed"]

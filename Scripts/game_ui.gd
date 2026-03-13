@@ -9,10 +9,12 @@ extends Control
 
 @onready var deck_label_: RichTextLabel = %DeckLabel
 @onready var weapon_label_: RichTextLabel = %Weapon
+@onready var weapon_symbol: Label = %WeaponSymbol
 @onready var potion_label_: RichTextLabel = %Potion
 @onready var discard_label: RichTextLabel = %DiscardLabel
 
 @onready var next_room_btn: Button = %NextRoomBtn
+@onready var barehand_prompt: VBoxContainer = %BarehandPromptContainer
 
 @onready var game_over_screen: Panel = %GameOverScreen
 @onready var player_wins_screen: Panel = %PlayerWinsScreen
@@ -28,12 +30,14 @@ func _ready() -> void:
 	state.next_room.connect(move_next)
 	state.stats_changed.connect(_on_stats_changed)
 	state.inventory_changed.connect(_on_inventory_changed)
+	state.barehand_prompt.connect(_on_barehand_prompt)
 	state.game_over.connect(_on_game_over)
 	state.player_wins.connect(_on_player_wins)
 	state.start_game()
 
 func say(text: String) -> void:
 	text_log.append_text(text)
+
 
 func _on_room_updated(room: Array) -> void:
 	for child in room_row.get_children():
@@ -56,8 +60,10 @@ func _on_room_updated(room: Array) -> void:
 		
 		room_row.add_child(c)
 
+
 func move_next(_next_room) -> void:
 	next_room_btn.visible = true
+
 
 func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: Array, deck_max: int, discard: Array) -> void:
 	hp_label.text = "HP: %d/%d" % [hp, max_hp]
@@ -66,29 +72,42 @@ func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: 
 	discard_label.text = "%d" % [discard.size()]
 	room_number_label.text = "ROOM: %d" % [room_number]
 
+
 func _on_inventory_changed(weapon: Dictionary, potion: Dictionary) -> void:
 	if weapon == {}:
-		weapon_label_.text = ""
+		weapon_label_.text = "--"
 	else:
-		weapon_label_.text = str(weapon.id)
-		weapon_label_.add_theme_color_override("default_color", Color.CRIMSON)
-	
+		weapon_label_.text = str(weapon.value)
+		weapon_symbol.text = str(weapon.id)
+		
 	if potion == {}:
-		potion_label_.text = ""
+		potion_label_.text = "--"
 	else:
 		potion_label_.text = str(potion.id)
-		potion_label_.add_theme_color_override("default_color", Color.CRIMSON)
+
+func _on_barehand_prompt() -> void:
+	barehand_prompt.visible = true
 
 func _on_game_over(_game_over: bool) -> void:
 	if _game_over == true:
 		game_over_screen.visible = true
 
+
 func _on_player_wins(_player_wins: bool) -> void:
 	if _player_wins == true:
 		player_wins_screen.visible = true
+
 
 func _on_next_room_btn_pressed() -> void:
 	next_room_btn.visible = false
 	state._ui_locked = false
 	state._next_room = false
 	state.refill()
+
+
+func _on_barehand_yes_pressed() -> void:
+	state.handle_command("bh_yes")
+
+
+func _on_barehand_no_pressed() -> void:
+	state.handle_command("bh_no")

@@ -6,6 +6,7 @@ signal log_text(text: String)
 
 signal stats_changed(hp, max_hp, gold, room_number, deck, deck_max, discard)
 signal inventory_changed(weapon: Dictionary, potion: Dictionary)
+signal barehand_prompt()
 
 signal room_updated(room: Array)
 
@@ -25,11 +26,12 @@ var max_hp = 1000
 var gold = 0
 var deck_count: int = 0
 var deck_max: int = 0
-var card_count = 0
 var card_position = 0
 var room_number = 0
 
+# ---/BOOLEANS/---
 var _next_room = false
+var _awaiting_yes_no = false
 var _game_over = false
 var _player_wins = false
 var _ui_locked = false
@@ -41,12 +43,15 @@ var potion = {}
 var card_retained = {}
 var retained_position = 0
 
+var weapon_limit = 0
+var barehand = false
+
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
 var room: Array = []
 var inventory: Array = [weapon, potion]
-var enemies: Array = []
 var discard: Array = []
+var enemy: Dictionary = {}
 
 # ---/CARD DATA/---
 var card_data: Dictionary = {
@@ -104,37 +109,50 @@ var card_data: Dictionary = {
 	}
 }
 
+
 # ---/LIFECYCLE/---
 func start_game() -> void:
 	generate_deck()
 	_emit_inventory()
 
+
 # ---/EMISSIONS/---
 func _say(text: String) -> void:
 	emit_signal("log_text", text)
+
 
 func _emit_inventory() -> void:
 	inventory = [weapon, potion]
 	emit_signal("inventory_changed", weapon, potion)
 
+
 func _emit_room() -> void:
 	emit_signal("room_updated", room)
+
 
 func _emit_next_room() -> void:
 	_next_room = true
 	_ui_locked = true
 	emit_signal("next_room", _next_room)
 
+
 func _emit_stats() -> void:
 	emit_signal("stats_changed", hp, max_hp, gold, room_number, deck, deck_max, discard)
+
+
+func _emit_barehand_prompt() -> void:
+	emit_signal("barehand_prompt")
+
 
 func _emit_game_over() -> void:
 	_game_over = true
 	emit_signal("game_over", _game_over)
 
+
 func _emit_win() -> void:
 	_player_wins = true
 	emit_signal("player_wins", _player_wins)
+
 
 # ---/INPUT HANDLING/---
 func _unhandled_input(event: InputEvent) -> void:
@@ -153,26 +171,35 @@ func _unhandled_input(event: InputEvent) -> void:
 					handle_command("heal")
 				KEY_F:
 					handle_command("flee")
-					card_count = 0
+
 
 func handle_command(command: String) -> void:
+	if _awaiting_yes_no == false:
+		match command:
+			"first":
+				card_position = 0
+				choose_card()
+			"second":
+				card_position = 1
+				choose_card()
+			"third":
+				card_position = 2
+				choose_card()
+			"fourth":
+				card_position = 3
+				choose_card()
+			"heal":
+				use_potion()
+			"flee":
+				flee()
 	match command:
-		"first":
-			card_position = 0
-			choose_card()
-		"second":
-			card_position = 1
-			choose_card()
-		"third":
-			card_position = 2
-			choose_card()
-		"fourth":
-			card_position = 3
-			choose_card()
-		"heal":
-			use_potion()
-		"flee":
-			flee()
+		"bh_yes":
+			_awaiting_yes_no = false
+			barehand = true
+			attack()
+		"bh_no":
+			_awaiting_yes_no = false
+			return
 
 # ---/ROOM HELPERS/
 func generate_deck() -> void:
@@ -201,13 +228,14 @@ func generate_deck() -> void:
 	_emit_stats()
 	fill()
 
+
 func fill() -> void:
-	deck.resize(6)
 	while room.size() < 4:
 		room.append(deck[0])
 		deck.remove_at(0)
 	_emit_room()
 	_emit_stats()
+
 
 func refill() -> void:
 	if deck.size() > 2:
@@ -221,59 +249,27 @@ func refill() -> void:
 			deck.remove_at(0)
 		room.insert(int(retained_position), card_retained)
 	else:
-		print("DECK BEFORE END: " + str(deck))
-		print("\nROOM BEFORE END: " + str(room))
 		var final_room: Array = []
 		final_room.resize(4)
-		print("\nEMPTY COPY PROOF: " + str(final_room))
 		for c in room:
 			if c == {}:
 				if deck.size() > 0:
 					var card = deck[0]
-					print("\nCARD TO BE DRAWN: " + str(card.id))
 					var position = room.find(c)
-					print("\nFOUND VACANCY AT POSITION " + str(position) + " IN ROOM")
-					print("\nEMULATING VACANT VALUE'S POSITION IN ROOM COPY")
-					print("\nDREW & INSERTED " + str(card.id) + " AT POSITION " + str(position) + " IN ROOM COPY")
 					final_room.insert(position, card)
 					deck.remove_at(0)
-					print("\nDECK SIZE: " + str(deck.size()))
-					print("\nROOM COPY AFTER CARD APPENDED: " + str(final_room))
 					room[position] = {0:0}
 				elif deck.size() == 0:
-						print("\nDECK EMPTY--APPENDING REMAINING VACANT VALUES TO ROOM COPY")
 						var position = room.find(c)
-						print("\nFOUND VACANCY AT POSITION " + str(position) + " IN ROOM")
 						final_room.insert(position, c)
-						print("\n" + str(c) + " INSERTED AT POSITION " + str(position) + " IN ROOM COPY")
-						print("\nROOM COPY AFTER VACANCY APPENDED: " + str(final_room))
 						room[position] = {0:0}
 			elif c != {} and c != {0:0}:
 					card_retained = c
 					retained_position = room.find(c)
 					final_room.insert(retained_position, card_retained)
-					print("\nPROOF OF RETAINED CARD: " + str(card_retained.id) + " AT POSITION " + str(retained_position) + " IN ROOM")
-					print("\nRETAINED " + str(card_retained) + " AND INSERTED INTO ROOM COPY AT POSITION " + str(retained_position))
 		
 		final_room.resize(4)
 		room = final_room
-		print("\nROOM COPY CLAMPED TO " + str(final_room.size()))
-		print("\nPROOF OF EMPTY DECK: " + str(deck))
-		print("\nROOM COPY AT END: " + str(final_room))
-		print("PROOF OF NEW ROOM: " + str(room))
-		#print("DECK BEFORE END: " + str(deck))
-		#print("ROOM BEFORE END: " + str(room))
-		#while deck.size() > 0:
-			#var card = deck[0]
-			#print("NEXT CARD: " + str(card))
-			#for c in room:
-				#if c == {}:
-					#print("PROOF OF EMPTY: " + str(c))
-					#c = card
-					#print("PROOF OF OVERWRITE: " + str(c))
-					#deck.remove_at(0)
-		#print("DECK AFTER END: " + str(deck))
-		#print("ROOM AFTER END: " + str(room))
 		
 	room_number += 1
 		
@@ -284,20 +280,22 @@ func refill() -> void:
 		_emit_room()
 		_emit_win()
 
+
 func choose_card() -> void:
 	var card = room[card_position]
 	if card == {}:
 		return
 		
 	if card.type == "enemy":
-		attack(card)
+		enemy = card
+		print(enemy)
+		attack()
 		
 	elif card.type == "weapon":
 		if weapon != {}:
-			discard.append(weapon)
 			_say("▻DISCARDED WEAPON (" + weapon.id + ")\n\n")
 		weapon = card
-		card_count += 1
+		weapon_limit = weapon.value
 		_say("▻EQUIPPED WEAPON (" + weapon.id + ")\n\n")
 		
 	elif card.type == "potion":
@@ -305,7 +303,6 @@ func choose_card() -> void:
 			discard.append(potion)
 			_say("▻DISCARDED POTION (" + potion.id + ")\n\n")
 		potion = card
-		card_count += 1
 		_say("▻EQUIPPED POTION (" + potion.id + ")\n\n")
 	
 	_emit_stats()
@@ -313,21 +310,24 @@ func choose_card() -> void:
 	room[card_position] = {}
 	_emit_room()
 	
-	if card_count == 3:
+	var empty_slots = room.count({})
+	if empty_slots >= 3:
 		_emit_next_room()
-		card_count = 0
 
 # ---/ACTIONS/---
-func attack(enemy: Dictionary) -> void:
-	var enemy_atk = enemy.value
+func attack() -> void:
 	var old_hp = hp
 	var weapon_dmg = 0
+	
+	if enemy.value >= weapon_limit and barehand == false:
+		_say("▻WEAPON LIMIT TOO LOW")
+		_emit_barehand_prompt()
+		_awaiting_yes_no = true
 
 	if weapon != {}:
 		weapon_dmg = weapon.value
 	
-	var dmg_taken = max(enemy_atk - weapon_dmg, 0)
-	
+	var dmg_taken = max(enemy.value - weapon_dmg, 0)
 	hp = max(old_hp - dmg_taken, 0)
 	
 	if hp == 0:
@@ -335,25 +335,22 @@ func attack(enemy: Dictionary) -> void:
 		return
 	
 	if weapon == {}:
-		_say("▻YOU ATTACK BAREHANDED\n\n")
+		_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") BAREHANDED\n\n")
 	else:
 		_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") WITH YOUR WEAPON (" + str(weapon.id) + ")\n\n")
-		
+	
 	if dmg_taken == 0:
 		_say("▻YOU TAKE NO DAMAGE\n\n")
 	else:
 		_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
 	
 	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED\n\n")
-	
-	if weapon != {}:
-		discard.append(weapon)
-		_say("▻WEAPON (" + str(weapon.id) + ") WAS DESTROYED\n\n")
-	
-	discard.append(enemy)
 		
-	weapon = {}
-	card_count += 1
+	discard.append(enemy)
+	barehand = false
+	weapon_limit = enemy.value
+	enemy.clear()
+		
 	_emit_inventory()
 	_emit_stats()
 
