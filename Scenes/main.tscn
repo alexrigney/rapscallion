@@ -54,6 +54,8 @@ border_width_right = 1
 border_width_bottom = 1
 border_blend = true
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kry3j"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hptm8"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
 border_width_left = 1
@@ -290,7 +292,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ynf5e")
 text = "PLAYER ATK"
 horizontal_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1762487791]
+[node name="WeaponLimitMargin" type="MarginContainer" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1762487791]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -302,10 +304,27 @@ theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 3
 
-[node name="WeaponSymbol" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon/MarginContainer" unique_id=1356904095]
+[node name="WeaponLimitLabel" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon/WeaponLimitMargin" unique_id=1356904095]
 unique_name_in_owner = true
 layout_mode = 2
 vertical_alignment = 1
+
+[node name="BarehandToggleMargin" type="MarginContainer" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=2138938607]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 84.0
+grow_vertical = 0
+theme_override_constants/margin_left = 7
+
+[node name="BarehandToggle" type="CheckButton" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon/BarehandToggleMargin" unique_id=1522692640]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kry3j")
+text = "BAREHAND?"
 
 [node name="Potion" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=467346728]
 unique_name_in_owner = true
@@ -385,6 +404,14 @@ text = "NO WEAPON EQUIPPED.
 FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
+[node name="ChooseBarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=608003989]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "FIGHT BAREHANDED?"
+horizontal_alignment = 1
+
 [node name="BarehandYesNoRow" type="HBoxContainer" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1815270369]
 unique_name_in_owner = true
 visible = false
@@ -416,6 +443,7 @@ stream = ExtResource("3_8gbba")
 [node name="AttackSFX" type="AudioStreamPlayer" parent="." unique_id=1178489174]
 stream = ExtResource("4_jjvhh")
 
+[connection signal="toggled" from="MainBody/PlayerInfoMargin/PlayerInfo/Weapon/BarehandToggleMargin/BarehandToggle" to="." method="_on_barehand_toggle_toggled"]
 [connection signal="pressed" from="MainBody/PlayerInfoMargin/NextRoomBtnMargin/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
 [connection signal="pressed" from="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow/BarehandYes" to="." method="_on_barehand_yes_pressed"]
 [connection signal="pressed" from="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow/BarehandNo" to="." method="_on_barehand_no_pressed"]

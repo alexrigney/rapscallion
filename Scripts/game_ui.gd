@@ -9,7 +9,7 @@ extends Control
 
 @onready var deck_label_: RichTextLabel = %DeckLabel
 @onready var weapon_label_: RichTextLabel = %Weapon
-@onready var weapon_symbol: Label = %WeaponSymbol
+@onready var weapon_limit_: Label = %WeaponLimitLabel
 @onready var potion_label_: RichTextLabel = %Potion
 @onready var discard_label: RichTextLabel = %DiscardLabel
 
@@ -17,6 +17,7 @@ extends Control
 @onready var barehand_prompt: VBoxContainer = %BarehandPromptContainer
 @onready var low_ceiling_barehand: Label = %LowCeilingBarehandPrompt
 @onready var no_weapon_barehand: Label = %NoWeaponBarehandPrompt
+@onready var choose_barehand: Label = %ChooseBarehandPrompt
 @onready var barehand_yes_no_row: HBoxContainer = %BarehandYesNoRow
 
 @onready var game_over_screen: Panel = %GameOverScreen
@@ -69,36 +70,49 @@ func move_next(_next_room) -> void:
 	next_room_btn.visible = true
 
 
-func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: Array, deck_max: int, discard: Array) -> void:
+func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: Array, deck_max: int, discard: Array, weapon_limit: int, _limit_not_set: bool) -> void:
 	hp_label.text = "HP: %d/%d" % [hp, max_hp]
 	gold_label.text = "GOLD: %d" % [gold]
 	deck_label_.text = "%d/%d" % [deck.size(), deck_max]
 	discard_label.text = "%d" % [discard.size()]
 	room_number_label.text = "ROOM: %d" % [room_number]
+	
+	if _limit_not_set == true:
+		weapon_limit_.text = ""
+	else:
+		weapon_limit_.text = "LIMIT: " + str(weapon_limit)
 
 
 func _on_inventory_changed(weapon: Dictionary, potion: Dictionary) -> void:
 	if weapon == {}:
 		weapon_label_.text = "--"
-		weapon_symbol.text = ""
 	else:
-		weapon_label_.text = str(weapon.value)
-		weapon_symbol.text = str(weapon.id)
-		weapon_symbol.add_theme_color_override("font_color", Color.CRIMSON)
+		weapon_label_.text = "--"
+		weapon_label_.text = weapon.id
+		weapon_label_.add_theme_color_override("font_color", Color.CRIMSON)
 	if potion == {}:
 		potion_label_.text = "--"
 	else:
 		potion_label_.text = str(potion.id)
 
 
-func _on_barehand_prompt(weapon: Dictionary) -> void:
+func _on_barehand_prompt(weapon: Dictionary, _choose_barehanded: bool) -> void:
 	barehand_prompt.visible = true
 	barehand_yes_no_row.visible = true
 	
-	if weapon == {}:
+	if _choose_barehanded == true:
+		choose_barehand.visible = true
+		no_weapon_barehand.visible = false
+		low_ceiling_barehand.visible = false
+		return
+	elif weapon == {}:
 		no_weapon_barehand.visible = true
+		low_ceiling_barehand.visible = false
+		choose_barehand.visible = false
 	else:
 		low_ceiling_barehand.visible = true
+		no_weapon_barehand.visible = false
+		choose_barehand.visible = false
 
 
 func _on_game_over(_game_over: bool) -> void:
@@ -122,6 +136,16 @@ func _on_barehand_yes_pressed() -> void:
 	barehand_prompt.visible = false
 	state.handle_command("bh_yes")
 
+
 func _on_barehand_no_pressed() -> void:
 	barehand_prompt.visible = false
 	state.handle_command("bh_no")
+
+
+func _on_barehand_toggle_toggled(toggled_on: bool) -> void:
+	if toggled_on == true:
+		state._choose_barehanded = true
+		print("toggle on")
+	else:
+		state._choose_barehanded = false
+		print("toggle off")
