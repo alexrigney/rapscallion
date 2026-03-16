@@ -15,6 +15,9 @@ extends Control
 
 @onready var next_room_btn: Button = %NextRoomBtn
 @onready var barehand_prompt: VBoxContainer = %BarehandPromptContainer
+@onready var low_ceiling_barehand: Label = %LowCeilingBarehandPrompt
+@onready var no_weapon_barehand: Label = %NoWeaponBarehandPrompt
+@onready var barehand_yes_no_row: HBoxContainer = %BarehandYesNoRow
 
 @onready var game_over_screen: Panel = %GameOverScreen
 @onready var player_wins_screen: Panel = %PlayerWinsScreen
@@ -34,6 +37,7 @@ func _ready() -> void:
 	state.game_over.connect(_on_game_over)
 	state.player_wins.connect(_on_player_wins)
 	state.start_game()
+
 
 func say(text: String) -> void:
 	text_log.append_text(text)
@@ -76,17 +80,26 @@ func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: 
 func _on_inventory_changed(weapon: Dictionary, potion: Dictionary) -> void:
 	if weapon == {}:
 		weapon_label_.text = "--"
+		weapon_symbol.text = ""
 	else:
 		weapon_label_.text = str(weapon.value)
 		weapon_symbol.text = str(weapon.id)
-		
+		weapon_symbol.add_theme_color_override("font_color", Color.CRIMSON)
 	if potion == {}:
 		potion_label_.text = "--"
 	else:
 		potion_label_.text = str(potion.id)
 
-func _on_barehand_prompt() -> void:
+
+func _on_barehand_prompt(weapon: Dictionary) -> void:
 	barehand_prompt.visible = true
+	barehand_yes_no_row.visible = true
+	
+	if weapon == {}:
+		no_weapon_barehand.visible = true
+	else:
+		low_ceiling_barehand.visible = true
+
 
 func _on_game_over(_game_over: bool) -> void:
 	if _game_over == true:
@@ -106,8 +119,9 @@ func _on_next_room_btn_pressed() -> void:
 
 
 func _on_barehand_yes_pressed() -> void:
+	barehand_prompt.visible = false
 	state.handle_command("bh_yes")
 
-
 func _on_barehand_no_pressed() -> void:
+	barehand_prompt.visible = false
 	state.handle_command("bh_no")

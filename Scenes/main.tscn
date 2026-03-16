@@ -287,19 +287,24 @@ anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_ynf5e")
-text = "WEAPON"
+text = "PLAYER ATK"
 horizontal_alignment = 1
 
-[node name="WeaponSymbol" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1356904095]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon" unique_id=1762487791]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -1.0
-offset_bottom = 25.0
+offset_left = -40.0
+offset_bottom = 40.0
 grow_horizontal = 0
-horizontal_alignment = 1
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 3
+
+[node name="WeaponSymbol" type="Label" parent="MainBody/PlayerInfoMargin/PlayerInfo/Weapon/MarginContainer" unique_id=1356904095]
+unique_name_in_owner = true
+layout_mode = 2
 vertical_alignment = 1
 
 [node name="Potion" type="RichTextLabel" parent="MainBody/PlayerInfoMargin/PlayerInfo" unique_id=467346728]
@@ -362,14 +367,27 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="BarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1633811766]
+[node name="LowCeilingBarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1633811766]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 text = "WEAPON LIMIT TOO LOW.
 FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
+[node name="NoWeaponBarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1853648208]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "NO WEAPON EQUIPPED.
+FIGHT BAREHANDED?"
+horizontal_alignment = 1
+
 [node name="BarehandYesNoRow" type="HBoxContainer" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1815270369]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 alignment = 1
 

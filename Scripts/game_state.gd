@@ -6,7 +6,7 @@ signal log_text(text: String)
 
 signal stats_changed(hp, max_hp, gold, room_number, deck, deck_max, discard)
 signal inventory_changed(weapon: Dictionary, potion: Dictionary)
-signal barehand_prompt()
+signal barehand_prompt(weapon: Dictionary, _awaiting_yes_no: bool)
 
 signal room_updated(room: Array)
 
@@ -43,8 +43,7 @@ var potion = {}
 var card_retained = {}
 var retained_position = 0
 
-var weapon_limit = 0
-var barehand = false
+var weapon_limit: int = 0
 
 # ---/ARRAY VARIABLES/---
 var deck: Array = []
@@ -141,8 +140,8 @@ func _emit_stats() -> void:
 
 
 func _emit_barehand_prompt() -> void:
-	emit_signal("barehand_prompt")
-
+	print("barehand signal received")
+	emit_signal("barehand_prompt", weapon)
 
 func _emit_game_over() -> void:
 	_game_over = true
@@ -195,8 +194,7 @@ func handle_command(command: String) -> void:
 	match command:
 		"bh_yes":
 			_awaiting_yes_no = false
-			barehand = true
-			attack()
+			barehand()
 		"bh_no":
 			_awaiting_yes_no = false
 			return
@@ -288,7 +286,7 @@ func choose_card() -> void:
 		
 	if card.type == "enemy":
 		enemy = card
-		print(enemy)
+		print("ENEMY PROOF: " + str(enemy))
 		attack()
 		
 	elif card.type == "weapon":
@@ -297,6 +295,7 @@ func choose_card() -> void:
 		weapon = card
 		weapon_limit = weapon.value
 		_say("▻EQUIPPED WEAPON (" + weapon.id + ")\n\n")
+		room[card_position] = {}
 		
 	elif card.type == "potion":
 		if potion != {}:
@@ -304,13 +303,14 @@ func choose_card() -> void:
 			_say("▻DISCARDED POTION (" + potion.id + ")\n\n")
 		potion = card
 		_say("▻EQUIPPED POTION (" + potion.id + ")\n\n")
+		room[card_position] = {}
 	
 	_emit_stats()
 	_emit_inventory()
-	room[card_position] = {}
 	_emit_room()
 	
 	var empty_slots = room.count({})
+	print("EMPTY: " + str(empty_slots))
 	if empty_slots >= 3:
 		_emit_next_room()
 
@@ -318,41 +318,62 @@ func choose_card() -> void:
 func attack() -> void:
 	var old_hp = hp
 	var weapon_dmg = 0
+	print("attack begin")
 	
-	if enemy.value >= weapon_limit and barehand == false:
-		_say("▻WEAPON LIMIT TOO LOW")
-		_emit_barehand_prompt()
+	if int(enemy.value) > int(weapon_limit):
+		print("low ceiling reroute to prompt")
 		_awaiting_yes_no = true
+		_emit_barehand_prompt()
+	else:
+		if weapon != {}:
+			weapon_dmg = weapon.value
+		
+		var dmg_taken = max(enemy.value - weapon_dmg, 0)
+		hp = max(old_hp - dmg_taken, 0)
+		
+		if hp == 0:
+			_emit_game_over()
+			return
 
-	if weapon != {}:
-		weapon_dmg = weapon.value
+		_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") WITH YOUR WEAPON (" + str(weapon["id"]) + ")\n\n")
+		
+		if dmg_taken == 0:
+			_say("▻YOU TAKE NO DAMAGE\n\n")
+		else:
+			_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
+		
+		_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED\n\n")
+			
+		discard.append(enemy)
+		weapon_limit = enemy.value
 	
-	var dmg_taken = max(enemy.value - weapon_dmg, 0)
+	if _awaiting_yes_no == false:
+		room[card_position] = {}
+		
+	_emit_stats()
+
+
+func barehand() -> void:
+	var old_hp = hp
+	var dmg_taken = enemy.value
+	
 	hp = max(old_hp - dmg_taken, 0)
+	
+	_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") BAREHANDED\n\n")
+	_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
 	
 	if hp == 0:
 		_emit_game_over()
 		return
-	
-	if weapon == {}:
-		_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") BAREHANDED\n\n")
-	else:
-		_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") WITH YOUR WEAPON (" + str(weapon.id) + ")\n\n")
-	
-	if dmg_taken == 0:
-		_say("▻YOU TAKE NO DAMAGE\n\n")
-	else:
-		_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
-	
-	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED\n\n")
 		
 	discard.append(enemy)
-	barehand = false
-	weapon_limit = enemy.value
-	enemy.clear()
-		
-	_emit_inventory()
+	
+	if _awaiting_yes_no == false:
+		room[card_position] = {}
+	
+	_emit_room()
 	_emit_stats()
+
 
 func use_potion() -> void:
 	var old_hp = hp
