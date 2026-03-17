@@ -6,9 +6,6 @@
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
-bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.25490198)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
 bg_color = Color(0.099985994, 0.09998601, 0.099985965, 0.46666667)
 border_width_left = 1
@@ -37,6 +34,13 @@ color = Color(0.4045111, 0.40451115, 0.4045111, 0.6313726)
 grow_begin = -3.0
 grow_end = -3.0
 vertical = true
+
+[sub_resource type="InputEventKey" id="InputEventKey_kry3j"]
+pressed = true
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_21xkr"]
+events = [SubResource("InputEventKey_kry3j")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_344ge"]
 bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
@@ -72,12 +76,8 @@ border_width_right = 1
 border_width_bottom = 1
 border_blend = true
 
-[sub_resource type="InputEventKey" id="InputEventKey_kry3j"]
-pressed = true
-keycode = 4194309
-
-[sub_resource type="Shortcut" id="Shortcut_21xkr"]
-events = [SubResource("InputEventKey_kry3j")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.25490198)
 
 [node name="GameUI" type="Control" unique_id=915763936]
 layout_mode = 3
@@ -96,58 +96,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
-
-[node name="Label" type="Label" parent="MainBody/GameOverScreen" unique_id=1050931599]
-custom_minimum_size = Vector2(500, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
-theme_override_font_sizes/font_size = 150
-text = "GAME OVER"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlayerWinsScreen" type="Panel" parent="MainBody" unique_id=1875142742]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
-
-[node name="Label" type="Label" parent="MainBody/PlayerWinsScreen" unique_id=839504360]
-custom_minimum_size = Vector2(500, 300)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
-theme_override_font_sizes/font_size = 150
-text = "YOU WIN"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="LogContainerMargin" type="MarginContainer" parent="MainBody" unique_id=2127373242]
 custom_minimum_size = Vector2(503, 0)
@@ -233,20 +181,125 @@ custom_minimum_size = Vector2(650, 487)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_top = 31
-theme_override_constants/margin_bottom = 150
 
-[node name="RoomRow" type="HBoxContainer" parent="MainBody/RoomInfoMargin" unique_id=536191334]
+[node name="RoomRowMargin" type="MarginContainer" parent="MainBody/RoomInfoMargin" unique_id=664069856]
+layout_mode = 2
+
+[node name="RoomRow" type="HBoxContainer" parent="MainBody/RoomInfoMargin/RoomRowMargin" unique_id=536191334]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 1
+
+[node name="NextRoomBtnMargin" type="MarginContainer" parent="MainBody/RoomInfoMargin" unique_id=26152330]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_bottom = 50
+
+[node name="NextRoomBtn" type="Button" parent="MainBody/RoomInfoMargin/NextRoomBtnMargin" unique_id=846358075]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "NEXT ROOM"
+
+[node name="YesNoMargin" type="MarginContainer" parent="MainBody/RoomInfoMargin" unique_id=1310941449]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/margin_bottom = 90
+
+[node name="YesNoContainer" type="VBoxContainer" parent="MainBody/RoomInfoMargin/YesNoMargin" unique_id=1039954433]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LowCeilingBarehandPrompt" type="Label" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer" unique_id=1633811766]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "WEAPON LIMIT TOO LOW.
+FIGHT BAREHANDED?"
+horizontal_alignment = 1
+
+[node name="NoWeaponBarehandPrompt" type="Label" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer" unique_id=1853648208]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "NO WEAPON EQUIPPED.
+FIGHT BAREHANDED?"
+horizontal_alignment = 1
+
+[node name="ChooseBarehandPrompt" type="Label" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer" unique_id=608003989]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "FIGHT BAREHANDED?"
+horizontal_alignment = 1
+
+[node name="FleePrompt" type="Label" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer" unique_id=270960075]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+text = "FLEE ROOM?"
+horizontal_alignment = 1
+
+[node name="BHYesNoRow" type="HBoxContainer" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer" unique_id=1815270369]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="BtnYesBH" type="Button" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/BHYesNoRow" unique_id=501634963]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "YES"
+
+[node name="BtnNoBH" type="Button" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/BHYesNoRow" unique_id=896074659]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "NO"
+
+[node name="FleeYesNoRow" type="HBoxContainer" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer" unique_id=730054076]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="BtnYesFlee" type="Button" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/FleeYesNoRow" unique_id=1886316803]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "YES"
+
+[node name="BtnNoFlee" type="Button" parent="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/FleeYesNoRow" unique_id=295320409]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+size_flags_vertical = 8
+shortcut = SubResource("Shortcut_21xkr")
+text = "NO"
 
 [node name="PlayerInfoMargin" type="MarginContainer" parent="MainBody" unique_id=600340234]
 custom_minimum_size = Vector2(650, 487)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+mouse_filter = 2
 theme_override_constants/margin_bottom = 10
 
 [node name="PlayerInfo" type="HBoxContainer" parent="MainBody/PlayerInfoMargin" unique_id=925087642]
@@ -362,77 +415,57 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_d1ilt")
 text = "DISCARD PILE"
 horizontal_alignment = 1
 
-[node name="NextRoomBtnMargin" type="MarginContainer" parent="MainBody/PlayerInfoMargin" unique_id=26152330]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="NextRoomBtn" type="Button" parent="MainBody/PlayerInfoMargin/NextRoomBtnMargin" unique_id=846358075]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-size_flags_vertical = 8
-shortcut = SubResource("Shortcut_21xkr")
-text = "NEXT ROOM"
-
-[node name="BarehandPromptMargin" type="MarginContainer" parent="MainBody/PlayerInfoMargin" unique_id=1310941449]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="BarehandPromptContainer" type="VBoxContainer" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin" unique_id=1039954433]
+[node name="PlayerWinsScreen" type="Panel" parent="MainBody" unique_id=1875142742]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
 
-[node name="LowCeilingBarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1633811766]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/line_spacing = 0
-text = "WEAPON LIMIT TOO LOW.
-FIGHT BAREHANDED?"
+[node name="Label" type="Label" parent="MainBody/PlayerWinsScreen" unique_id=839504360]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
+theme_override_font_sizes/font_size = 150
+text = "YOU WIN"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="NoWeaponBarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1853648208]
+[node name="GameOverScreen" type="Panel" parent="MainBody" unique_id=794341732]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_constants/line_spacing = 0
-text = "NO WEAPON EQUIPPED.
-FIGHT BAREHANDED?"
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
+
+[node name="Label" type="Label" parent="MainBody/GameOverScreen" unique_id=1050931599]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.25490198)
+theme_override_font_sizes/font_size = 150
+text = "GAME OVER"
 horizontal_alignment = 1
-
-[node name="ChooseBarehandPrompt" type="Label" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=608003989]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/line_spacing = 0
-text = "FIGHT BAREHANDED?"
-horizontal_alignment = 1
-
-[node name="BarehandYesNoRow" type="HBoxContainer" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer" unique_id=1815270369]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-alignment = 1
-
-[node name="BarehandYes" type="Button" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow" unique_id=501634963]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 25)
-layout_mode = 2
-size_flags_vertical = 8
-shortcut = SubResource("Shortcut_21xkr")
-text = "YES"
-
-[node name="BarehandNo" type="Button" parent="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow" unique_id=896074659]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 25)
-layout_mode = 2
-size_flags_vertical = 8
-shortcut = SubResource("Shortcut_21xkr")
-text = "NO"
+vertical_alignment = 1
 
 [node name="GameState" type="Node" parent="." unique_id=250483524]
 script = ExtResource("1_jjgbg")
@@ -443,7 +476,9 @@ stream = ExtResource("3_8gbba")
 [node name="AttackSFX" type="AudioStreamPlayer" parent="." unique_id=1178489174]
 stream = ExtResource("4_jjvhh")
 
+[connection signal="pressed" from="MainBody/RoomInfoMargin/NextRoomBtnMargin/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
+[connection signal="pressed" from="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/BHYesNoRow/BtnYesBH" to="." method="_on_barehand_yes_pressed"]
+[connection signal="pressed" from="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/BHYesNoRow/BtnNoBH" to="." method="_on_barehand_no_pressed"]
+[connection signal="pressed" from="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/FleeYesNoRow/BtnYesFlee" to="." method="_on_btn_yes_flee_pressed"]
+[connection signal="pressed" from="MainBody/RoomInfoMargin/YesNoMargin/YesNoContainer/FleeYesNoRow/BtnNoFlee" to="." method="_on_btn_no_flee_pressed"]
 [connection signal="toggled" from="MainBody/PlayerInfoMargin/PlayerInfo/Weapon/BarehandToggleMargin/BarehandToggle" to="." method="_on_barehand_toggle_toggled"]
-[connection signal="pressed" from="MainBody/PlayerInfoMargin/NextRoomBtnMargin/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
-[connection signal="pressed" from="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow/BarehandYes" to="." method="_on_barehand_yes_pressed"]
-[connection signal="pressed" from="MainBody/PlayerInfoMargin/BarehandPromptMargin/BarehandPromptContainer/BarehandYesNoRow/BarehandNo" to="." method="_on_barehand_no_pressed"]

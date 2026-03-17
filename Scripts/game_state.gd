@@ -7,6 +7,7 @@ signal log_text(text: String)
 signal stats_changed(hp, max_hp, gold, room_number, deck, deck_max, discard, weapon_limit: int, _limit_not_set: bool)
 signal inventory_changed(weapon: Dictionary, potion: Dictionary)
 signal barehand_prompt(weapon: Dictionary, _choose_barehanded: bool)
+signal flee_prompt()
 
 signal room_updated(room: Array)
 
@@ -147,6 +148,11 @@ func _emit_barehand_prompt() -> void:
 	emit_signal("barehand_prompt", weapon, _choose_barehanded)
 
 
+func _emit_flee_prompt() -> void:
+	_awaiting_yes_no = true
+	emit_signal("flee_prompt")
+
+
 func _emit_game_over() -> void:
 	_game_over = true
 	emit_signal("game_over", _game_over)
@@ -163,16 +169,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and not event.echo:
 			match event.keycode:
 				KEY_1:
+					print("key1")
 					handle_command("first")
 				KEY_2:
+					print("key2")
 					handle_command("second")
 				KEY_3:
+					print("key3")
 					handle_command("third")
 				KEY_4:
+					print("key4")
 					handle_command("fourth")
 				KEY_P:
+					print("keyP")
 					handle_command("heal")
 				KEY_F:
+					print("keyF")
 					handle_command("flee")
 
 
@@ -194,12 +206,18 @@ func handle_command(command: String) -> void:
 			"heal":
 				use_potion()
 			"flee":
-				flee()
+				_emit_flee_prompt()
 	match command:
 		"bh_yes":
 			_awaiting_yes_no = false
 			barehand()
 		"bh_no":
+			_awaiting_yes_no = false
+			return
+		"flee_yes":
+			_awaiting_yes_no = false
+			flee()
+		"flee_no":
 			_awaiting_yes_no = false
 			return
 
@@ -293,12 +311,13 @@ func choose_card() -> void:
 		enemy = card
 		if weapon != {} and _choose_barehanded == false:
 			attack()
-		elif _choose_barehanded == true:
+		elif weapon == {} or _choose_barehanded == true:
 			_emit_barehand_prompt()
 		return
 		
 	elif card.type == "weapon":
 		if weapon != {}:
+			discard.append(weapon)
 			_say("▻DISCARDED WEAPON (" + weapon.id + ")\n\n")
 		weapon = card
 		_limit_not_set = true
@@ -363,6 +382,7 @@ func barehand() -> void:
 	
 	_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") BAREHANDED\n\n")
 	_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
+	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED")
 	
 	if hp == 0:
 		_emit_game_over()
@@ -399,7 +419,7 @@ func use_potion() -> void:
 
 func flee() -> void:
 	if deck.size() < 4:
-		_say("YOU CANNOT FLEE")
+		_say("▻YOU CANNOT FLEE")
 		return
 	
 	for card in room:

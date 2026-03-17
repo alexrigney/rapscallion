@@ -14,11 +14,18 @@ extends Control
 @onready var discard_label: RichTextLabel = %DiscardLabel
 
 @onready var next_room_btn: Button = %NextRoomBtn
-@onready var barehand_prompt: VBoxContainer = %BarehandPromptContainer
+
 @onready var low_ceiling_barehand: Label = %LowCeilingBarehandPrompt
 @onready var no_weapon_barehand: Label = %NoWeaponBarehandPrompt
 @onready var choose_barehand: Label = %ChooseBarehandPrompt
-@onready var barehand_yes_no_row: HBoxContainer = %BarehandYesNoRow
+@onready var flee_prompt: Label = %FleePrompt
+
+@onready var yes_no_container: VBoxContainer = %YesNoContainer
+@onready var bh_yes_no_row: HBoxContainer = %BHYesNoRow
+@onready var flee_yes_no_row: HBoxContainer = %FleeYesNoRow
+
+@onready var yes_bh: Button = %BtnYesBH
+@onready var no_bh: Button = %BtnNoBH
 
 @onready var game_over_screen: Panel = %GameOverScreen
 @onready var player_wins_screen: Panel = %PlayerWinsScreen
@@ -35,6 +42,7 @@ func _ready() -> void:
 	state.stats_changed.connect(_on_stats_changed)
 	state.inventory_changed.connect(_on_inventory_changed)
 	state.barehand_prompt.connect(_on_barehand_prompt)
+	state.flee_prompt.connect(_on_flee_prompt)
 	state.game_over.connect(_on_game_over)
 	state.player_wins.connect(_on_player_wins)
 	state.start_game()
@@ -47,21 +55,32 @@ func say(text: String) -> void:
 func _on_room_updated(room: Array) -> void:
 	for child in room_row.get_children():
 		child.queue_free()
-		
+	
+	var counter: int = 0
+	
 	for key in room:
 		var c = Button.new()
-		if key != {}:
-			c.text = key.id
-		else:
-			c.text = ""
 		c.custom_minimum_size = Vector2(150, 210)
 		c.theme = card_theme
 		
 		if key != {}:
-			if key.type == "enemy":
-				c.add_theme_color_override("font_color", Color(0.081, 0.081, 0.081, 1.0))
-			else:
-				c.add_theme_color_override("font_color", Color(0.706, 0.067, 0.188, 1.0))
+			c.text = key.id
+			match key.type:
+				"enemy":
+					c.add_theme_color_override(
+					"font_color", Color(0.081, 0.081, 0.081, 1.0))
+				_:
+					c.add_theme_color_override(
+					"font_color", Color(0.706, 0.067, 0.188, 1.0))
+		else:
+			c.text = ""
+		
+		if room[int(counter)] == key:
+			c.name = "card_" + str(counter)
+			c.pressed.connect(_on_btn_card_pressed.bind(c.name))
+			print(c.name)
+		
+		counter += 1
 		
 		room_row.add_child(c)
 
@@ -97,22 +116,22 @@ func _on_inventory_changed(weapon: Dictionary, potion: Dictionary) -> void:
 
 
 func _on_barehand_prompt(weapon: Dictionary, _choose_barehanded: bool) -> void:
-	barehand_prompt.visible = true
-	barehand_yes_no_row.visible = true
+	yes_no_container.visible = true
+	bh_yes_no_row.visible = true
 	
 	if _choose_barehanded == true:
 		choose_barehand.visible = true
-		no_weapon_barehand.visible = false
-		low_ceiling_barehand.visible = false
 		return
 	elif weapon == {}:
 		no_weapon_barehand.visible = true
-		low_ceiling_barehand.visible = false
-		choose_barehand.visible = false
 	else:
 		low_ceiling_barehand.visible = true
-		no_weapon_barehand.visible = false
-		choose_barehand.visible = false
+
+
+func _on_flee_prompt() -> void:
+	yes_no_container.visible = true
+	flee_prompt.visible = true
+	flee_yes_no_row.visible = true
 
 
 func _on_game_over(_game_over: bool) -> void:
@@ -125,6 +144,18 @@ func _on_player_wins(_player_wins: bool) -> void:
 		player_wins_screen.visible = true
 
 
+func _on_btn_card_pressed(button: String) -> void:
+	match button:
+		"card_0":
+			state.handle_command("first")
+		"card_1":
+			state.handle_command("second")
+		"card_2":
+			state.handle_command("third")
+		"card_3":
+			state.handle_command("fourth")
+
+
 func _on_next_room_btn_pressed() -> void:
 	next_room_btn.visible = false
 	state._ui_locked = false
@@ -133,19 +164,40 @@ func _on_next_room_btn_pressed() -> void:
 
 
 func _on_barehand_yes_pressed() -> void:
-	barehand_prompt.visible = false
+	yes_no_container.visible = false
+	no_weapon_barehand.visible = false
+	low_ceiling_barehand.visible = false
+	choose_barehand.visible = false
+	
 	state.handle_command("bh_yes")
 
 
 func _on_barehand_no_pressed() -> void:
-	barehand_prompt.visible = false
+	yes_no_container.visible = false
+	no_weapon_barehand.visible = false
+	low_ceiling_barehand.visible = false
+	choose_barehand.visible = false
+	
 	state.handle_command("bh_no")
 
 
 func _on_barehand_toggle_toggled(toggled_on: bool) -> void:
 	if toggled_on == true:
 		state._choose_barehanded = true
-		print("toggle on")
 	else:
 		state._choose_barehanded = false
-		print("toggle off")
+
+
+func _on_btn_yes_flee_pressed() -> void:
+	yes_no_container.visible = false
+	flee_prompt.visible = false
+	flee_yes_no_row.visible = false
+	
+	state.handle_command("flee_yes")
+
+func _on_btn_no_flee_pressed() -> void:
+	yes_no_container.visible = false
+	flee_prompt.visible = false
+	flee_yes_no_row.visible = false
+
+	state.handle_command("flee_no")
