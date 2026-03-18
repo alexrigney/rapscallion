@@ -60,7 +60,7 @@ func _on_room_updated(room: Array) -> void:
 	
 	for key in room:
 		var c = Button.new()
-		c.custom_minimum_size = Vector2(150, 210)
+		c.custom_minimum_size = Vector2(190, 270)
 		c.theme = card_theme
 		
 		if key != {}:
@@ -116,7 +116,7 @@ func _on_inventory_changed(weapon: Dictionary, potion: Dictionary) -> void:
 
 
 func _on_barehand_prompt(weapon: Dictionary, _choose_barehanded: bool) -> void:
-	yes_no_container.visible = true
+	#yes_no_container.visible = true
 	bh_yes_no_row.visible = true
 	
 	if _choose_barehanded == true:
@@ -129,7 +129,7 @@ func _on_barehand_prompt(weapon: Dictionary, _choose_barehanded: bool) -> void:
 
 
 func _on_flee_prompt() -> void:
-	yes_no_container.visible = true
+	#yes_no_container.visible = true
 	flee_prompt.visible = true
 	flee_yes_no_row.visible = true
 
@@ -164,19 +164,21 @@ func _on_next_room_btn_pressed() -> void:
 
 
 func _on_barehand_yes_pressed() -> void:
-	yes_no_container.visible = false
+	#yes_no_container.visible = false
 	no_weapon_barehand.visible = false
 	low_ceiling_barehand.visible = false
 	choose_barehand.visible = false
+	bh_yes_no_row.visible = false
 	
 	state.handle_command("bh_yes")
 
 
 func _on_barehand_no_pressed() -> void:
-	yes_no_container.visible = false
+	#yes_no_container.visible = false
 	no_weapon_barehand.visible = false
 	low_ceiling_barehand.visible = false
 	choose_barehand.visible = false
+	bh_yes_no_row.visible = false
 	
 	state.handle_command("bh_no")
 
@@ -189,14 +191,14 @@ func _on_barehand_toggle_toggled(toggled_on: bool) -> void:
 
 
 func _on_btn_yes_flee_pressed() -> void:
-	yes_no_container.visible = false
+	#yes_no_container.visible = false
 	flee_prompt.visible = false
 	flee_yes_no_row.visible = false
 	
 	state.handle_command("flee_yes")
 
 func _on_btn_no_flee_pressed() -> void:
-	yes_no_container.visible = false
+	#yes_no_container.visible = false
 	flee_prompt.visible = false
 	flee_yes_no_row.visible = false
 
