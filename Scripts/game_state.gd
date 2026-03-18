@@ -57,7 +57,7 @@ var enemy: Dictionary = {}
 # ---/CARD DATA/---
 var card_data: Dictionary = {
 	SPADES:{
-		"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14},
+		"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14, "asset_id":"s1"},
 		"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
 		"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
 		"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
@@ -108,6 +108,28 @@ var card_data: Dictionary = {
 		"3":	{"id":"3", "name":"Three", "type":"weapon", "value":3},
 		"2":	{"id":"2", "name":"Two", "type":"weapon", "value":2}
 	}
+
+
+#var card_suit: Dictionary = {
+	#{"suit":"♠"}
+	#{SPADES
+	#"♥"
+	#"♦"
+}
+var card_rank: Dictionary ={
+	"A":	{"id":"A", "type":"enemy" , "value":14, "asset_id":"s1"},
+	"K":	{"id":"K", "type":"enemy", "value":13},
+	"Q":	{"id":"Q", "type":"enemy", "value":12},
+	"J":	{"id":"J", "type":"enemy", "value":11},
+	"10":	{"id":"10", "type":"weapon", "value":10},
+	"9":	{"id":"9", "type":"weapon", "value":9},
+	"8":	{"id":"8", "type":"weapon", "value":8},
+	"7":	{"id":"7", "type":"weapon", "value":7},
+	"6":	{"id":"6", "type":"weapon", "value":6},
+	"5":	{"id":"5", "type":"weapon", "value":5},
+	"4":	{"id":"4", "type":"weapon", "value":4},
+	"3":	{"id":"3", "type":"weapon", "value":3},
+	"2":	{"id":"2", "type":"weapon", "value":2}
 }
 
 
@@ -229,16 +251,16 @@ func generate_deck() -> void:
 			card_values["suit"] = key
 			card_values["id"] = (card_values.suit + card_values.id)
 			var suit = card_values.suit
-			var card_name = card_values.name
-		
-			if suit == SPADES:
-				card_values.name = (card_name + " of Spades")
-			elif suit == CLUBS:
-				card_values.name = (card_name + " of Clubs")
-			elif suit == HEARTS:
-				card_values.name = (card_name + " of Hearts")
-			else:
-				card_values.name = (card_name + " of Diamonds")
+			match suit:
+				SPADES:
+					card_values["asset_id"] = "s" + str(card_values.value)
+				CLUBS:
+					card_values["asset_id"] = "c" + str(card_values.value)
+				HEARTS:
+					card_values["asset_id"] = "h" + str(card_values.value)
+				DIAMONDS:
+					card_values["asset_id"] = "d" + str(card_values.value)
+			
 			card_values.erase("suit")
 			deck.append(card_values)
 	

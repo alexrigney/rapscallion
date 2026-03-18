@@ -3,12 +3,8 @@
 [ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
 [ext_resource type="Theme" uid="uid://dxdk0vltuxo8a" path="res://Themes/card_theme.tres" id="2_21xkr"]
-[ext_resource type="Texture2D" uid="uid://f55bpax3bspx" path="res://Card Icons/card-spades-10.png" id="2_ynf5e"]
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
-[ext_resource type="Texture2D" uid="uid://4dpvc2mlx54t" path="res://Card Icons/card-hearts-13.png" id="4_d1ilt"]
-[ext_resource type="Texture2D" uid="uid://b5mq64tfopbcf" path="res://Card Icons/card-diamonds-6.png" id="4_hptm8"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
-[ext_resource type="Texture2D" uid="uid://dyugexothkcg8" path="res://Card Icons/card-clubs-1.png" id="5_d1ilt"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_kry3j"]
 pressed = true
@@ -113,30 +109,6 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/HBoxContainer" unique_id=1521655806]
-layout_mode = 2
-texture = ExtResource("2_ynf5e")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="TextureRect2" type="TextureRect" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/HBoxContainer" unique_id=460253846]
-layout_mode = 2
-texture = ExtResource("4_d1ilt")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="TextureRect3" type="TextureRect" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/HBoxContainer" unique_id=806615631]
-layout_mode = 2
-texture = ExtResource("4_hptm8")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="TextureRect4" type="TextureRect" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/HBoxContainer" unique_id=1214632956]
-layout_mode = 2
-texture = ExtResource("5_d1ilt")
-expand_mode = 3
-stretch_mode = 5
 
 [node name="RoomRow" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=536191334]
 unique_name_in_owner = true
