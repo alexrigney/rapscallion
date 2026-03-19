@@ -112,7 +112,6 @@ alignment = 1
 
 [node name="RoomRow" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=536191334]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1

@@ -18,8 +18,8 @@ signal player_wins(_player_wins)
 # ---/CONSTANTS/---
 const SPADES = "♠"
 const CLUBS = "♣"
-const HEARTS = "♥"
 const DIAMONDS = "♦"
+const HEARTS = "♥"
 
 # ---/NUMBER VARIABLES/---
 var hp = 1000
@@ -55,81 +55,83 @@ var discard: Array = []
 var enemy: Dictionary = {}
 
 # ---/CARD DATA/---
-var card_data: Dictionary = {
-	SPADES:{
-		"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14, "asset_id":"s1"},
-		"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
-		"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
-		"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
-		"10":	{"id":"10", "name":"Ten", "type":"enemy", "value":10},
-		"9":	{"id":"9", "name":"Nine", "type":"enemy", "value":9},
-		"8":	{"id":"8", "name":"Eight", "type":"enemy", "value":8},
-		"7":	{"id":"7", "name":"Seven", "type":"enemy", "value":7},
-		"6":	{"id":"6", "name":"Six", "type":"enemy", "value":6},
-		"5":	{"id":"5", "name":"Five", "type":"enemy", "value":5},
-		"4":	{"id":"4", "name":"Four", "type":"enemy", "value":4},
-		"3":	{"id":"3", "name":"Three", "type":"enemy", "value":3},
-		"2":	{"id":"2", "name":"Two", "type":"enemy","value":2}
-		},
-	CLUBS:{
-		"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14},
-		"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
-		"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
-		"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
-		"10":	{"id":"10", "name":"Ten", "type":"enemy", "value":10},
-		"9":	{"id":"9", "name":"Nine", "type":"enemy", "value":9},
-		"8":	{"id":"8", "name":"Eight", "type":"enemy", "value":8},
-		"7":	{"id":"7", "name":"Seven", "type":"enemy", "value":7},
-		"6":	{"id":"6", "name":"Six", "type":"enemy", "value":6},
-		"5":	{"id":"5", "name":"Five", "type":"enemy", "value":5},
-		"4":	{"id":"4", "name":"Four", "type":"enemy", "value":4},
-		"3":	{"id":"3", "name":"Three", "type":"enemy", "value":3},
-		"2":	{"id":"2", "name":"Two", "type":"enemy", "value":2}
-	},
-	HEARTS:{
-		"10":	{"id":"10", "name":"Ten", "type":"potion", "value":10},
-		"9":	{"id":"9", "name":"Nine", "type":"potion", "value":9},
-		"8":	{"id":"8", "name":"Eight", "type":"potion", "value":8},
-		"7":	{"id":"7", "name":"Seven", "type":"potion", "value":7},
-		"6":	{"id":"6", "name":"Six", "type":"potion", "value":6},
-		"5":	{"id":"5", "name":"Five", "type":"potion", "value":5},
-		"4":	{"id":"4", "name":"Four", "type":"potion", "value":4},
-		"3":	{"id":"3", "name":"Three", "type":"potion", "value":3},
-		"2":	{"id":"2", "name":"Two", "type":"potion", "value":2}
-	},
-	DIAMONDS:{
-		"10":	{"id":"10", "name":"Ten", "type":"weapon", "value":10},
-		"9":	{"id":"9", "name":"Nine", "type":"weapon", "value":9},
-		"8":	{"id":"8", "name":"Eight", "type":"weapon", "value":8},
-		"7":	{"id":"7", "name":"Seven", "type":"weapon", "value":7},
-		"6":	{"id":"6", "name":"Six", "type":"weapon", "value":6},
-		"5":	{"id":"5", "name":"Five", "type":"weapon", "value":5},
-		"4":	{"id":"4", "name":"Four", "type":"weapon", "value":4},
-		"3":	{"id":"3", "name":"Three", "type":"weapon", "value":3},
-		"2":	{"id":"2", "name":"Two", "type":"weapon", "value":2}
-	}
+#var card_data: Dictionary = {
+	#SPADES:{
+		#"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14, "asset_id":"s1"},
+		#"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
+		#"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
+		#"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
+		#"10":	{"id":"10", "name":"Ten", "type":"enemy", "value":10},
+		#"9":	{"id":"9", "name":"Nine", "type":"enemy", "value":9},
+		#"8":	{"id":"8", "name":"Eight", "type":"enemy", "value":8},
+		#"7":	{"id":"7", "name":"Seven", "type":"enemy", "value":7},
+		#"6":	{"id":"6", "name":"Six", "type":"enemy", "value":6},
+		#"5":	{"id":"5", "name":"Five", "type":"enemy", "value":5},
+		#"4":	{"id":"4", "name":"Four", "type":"enemy", "value":4},
+		#"3":	{"id":"3", "name":"Three", "type":"enemy", "value":3},
+		#"2":	{"id":"2", "name":"Two", "type":"enemy","value":2}
+		#},
+	#CLUBS:{
+		#"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14},
+		#"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
+		#"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
+		#"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
+		#"10":	{"id":"10", "name":"Ten", "type":"enemy", "value":10},
+		#"9":	{"id":"9", "name":"Nine", "type":"enemy", "value":9},
+		#"8":	{"id":"8", "name":"Eight", "type":"enemy", "value":8},
+		#"7":	{"id":"7", "name":"Seven", "type":"enemy", "value":7},
+		#"6":	{"id":"6", "name":"Six", "type":"enemy", "value":6},
+		#"5":	{"id":"5", "name":"Five", "type":"enemy", "value":5},
+		#"4":	{"id":"4", "name":"Four", "type":"enemy", "value":4},
+		#"3":	{"id":"3", "name":"Three", "type":"enemy", "value":3},
+		#"2":	{"id":"2", "name":"Two", "type":"enemy", "value":2}
+	#},
+	#HEARTS:{
+		#"10":	{"id":"10", "name":"Ten", "type":"potion", "value":10},
+		#"9":	{"id":"9", "name":"Nine", "type":"potion", "value":9},
+		#"8":	{"id":"8", "name":"Eight", "type":"potion", "value":8},
+		#"7":	{"id":"7", "name":"Seven", "type":"potion", "value":7},
+		#"6":	{"id":"6", "name":"Six", "type":"potion", "value":6},
+		#"5":	{"id":"5", "name":"Five", "type":"potion", "value":5},
+		#"4":	{"id":"4", "name":"Four", "type":"potion", "value":4},
+		#"3":	{"id":"3", "name":"Three", "type":"potion", "value":3},
+		#"2":	{"id":"2", "name":"Two", "type":"potion", "value":2}
+	#},
+	#DIAMONDS:{
+		#"10":	{"id":"10", "name":"Ten", "type":"weapon", "value":10},
+		#"9":	{"id":"9", "name":"Nine", "type":"weapon", "value":9},
+		#"8":	{"id":"8", "name":"Eight", "type":"weapon", "value":8},
+		#"7":	{"id":"7", "name":"Seven", "type":"weapon", "value":7},
+		#"6":	{"id":"6", "name":"Six", "type":"weapon", "value":6},
+		#"5":	{"id":"5", "name":"Five", "type":"weapon", "value":5},
+		#"4":	{"id":"4", "name":"Four", "type":"weapon", "value":4},
+		#"3":	{"id":"3", "name":"Three", "type":"weapon", "value":3},
+		#"2":	{"id":"2", "name":"Two", "type":"weapon", "value":2}
+		#}
+	#}
 
 
-#var card_suit: Dictionary = {
-	#{"suit":"♠"}
-	#{SPADES
-	#"♥"
-	#"♦"
+var card_suit: Dictionary = {
+	"SPADES":	{"suit":SPADES, "type":"enemy"},
+	"CLUBS":	{"suit":CLUBS, "type":"enemy"},
+	"DIAMONDS":	{"suit":DIAMONDS, "type":"weapon"},
+	"HEARTS":	{"suit":HEARTS, "type":"potion"}
 }
-var card_rank: Dictionary ={
-	"A":	{"id":"A", "type":"enemy" , "value":14, "asset_id":"s1"},
-	"K":	{"id":"K", "type":"enemy", "value":13},
-	"Q":	{"id":"Q", "type":"enemy", "value":12},
-	"J":	{"id":"J", "type":"enemy", "value":11},
-	"10":	{"id":"10", "type":"weapon", "value":10},
-	"9":	{"id":"9", "type":"weapon", "value":9},
-	"8":	{"id":"8", "type":"weapon", "value":8},
-	"7":	{"id":"7", "type":"weapon", "value":7},
-	"6":	{"id":"6", "type":"weapon", "value":6},
-	"5":	{"id":"5", "type":"weapon", "value":5},
-	"4":	{"id":"4", "type":"weapon", "value":4},
-	"3":	{"id":"3", "type":"weapon", "value":3},
-	"2":	{"id":"2", "type":"weapon", "value":2}
+
+var card_rank: Dictionary = {
+	"A": {"rank":"A", "value":14},
+	"K": {"rank":"K", "value":13},
+	"Q": {"rank":"Q", "value":12},
+	"J": {"rank":"J", "value":11},
+	"10": {"rank":"10", "value":10},
+	"9": {"rank":"9", "value":9},
+	"8": {"rank":"8", "value":8},
+	"7": {"rank":"7", "value":7},
+	"6": {"rank":"6", "value":6},
+	"5": {"rank":"5", "value":5},
+	"4": {"rank":"4", "value":4},
+	"3": {"rank":"3", "value":3},
+	"2": {"rank":"2", "value":2}
 }
 
 
@@ -140,6 +142,7 @@ func start_game() -> void:
 
 
 # ---/EMISSIONS/---
+#region
 func _say(text: String) -> void:
 	emit_signal("log_text", text)
 
@@ -183,6 +186,7 @@ func _emit_game_over() -> void:
 func _emit_win() -> void:
 	_player_wins = true
 	emit_signal("player_wins", _player_wins)
+#endregion
 
 
 # ---/INPUT HANDLING/---
@@ -244,29 +248,61 @@ func handle_command(command: String) -> void:
 			return
 
 # ---/ROOM HELPERS/
+#func generate_deck() -> void:
+	#for key in card_data:
+		#for values in card_data[key]:
+			#var card_values = card_data[key][values]
+			#card_values["suit"] = key
+			#card_values["id"] = (card_values.suit + card_values.id)
+			#var suit = card_values.suit
+			#match suit:
+				#SPADES:
+					#card_values["asset_id"] = "s" + str(card_values.value)
+				#CLUBS:
+					#card_values["asset_id"] = "c" + str(card_values.value)
+				#HEARTS:
+					#card_values["asset_id"] = "h" + str(card_values.value)
+				#DIAMONDS:
+					#card_values["asset_id"] = "d" + str(card_values.value)
+			#
+			#card_values.erase("suit")
+			#deck.append(card_values)
+	#
+	#deck.shuffle()
+	#deck_max = deck.size()
+	#deck_count = deck.size()
+	#_emit_stats()
+	#fill()
+
 func generate_deck() -> void:
-	for key in card_data:
-		for values in card_data[key]:
-			var card_values = card_data[key][values]
-			card_values["suit"] = key
-			card_values["id"] = (card_values.suit + card_values.id)
-			var suit = card_values.suit
-			match suit:
-				SPADES:
-					card_values["asset_id"] = "s" + str(card_values.value)
-				CLUBS:
-					card_values["asset_id"] = "c" + str(card_values.value)
-				HEARTS:
-					card_values["asset_id"] = "h" + str(card_values.value)
-				DIAMONDS:
-					card_values["asset_id"] = "d" + str(card_values.value)
-			
-			card_values.erase("suit")
-			deck.append(card_values)
+	for suit_data in card_suit:
+		var suit = card_suit[suit_data]["suit"]
+		var type = card_suit[suit_data]["type"]
+		
+		for rank_data in card_rank:
+			var rank = card_rank[rank_data]["rank"]
+			var value = card_rank[rank_data]["value"]
+			var card = {}
+			card["id"] = (suit + rank)
+			card["suit"] = suit
+			card["type"] = type
+			card["value"] = value
+			deck.append(card)
+	
+	for card in deck:
+		match card.suit:
+			SPADES:
+				card["asset_id"] = "spades_" + str(card.value)
+			CLUBS:
+				card["asset_id"] = "clubs_" + str(card.value)
+			DIAMONDS:
+				card["asset_id"] = "diamonds_" + str(card.value)
+			HEARTS:
+				card["asset_id"] = "hearts_" + str(card.value)
 	
 	deck.shuffle()
-	deck_max = deck.size()
 	deck_count = deck.size()
+	deck_max = deck.size()
 	_emit_stats()
 	fill()
 
@@ -358,7 +394,7 @@ func choose_card() -> void:
 	_emit_stats()
 	_emit_inventory()
 	_emit_room()
-	
+
 
 # ---/ACTIONS/---
 func attack() -> void:
@@ -438,6 +474,7 @@ func use_potion() -> void:
 	
 	_emit_inventory()
 	_emit_stats()
+
 
 func flee() -> void:
 	if deck.size() < 4:

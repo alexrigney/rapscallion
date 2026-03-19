@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c2w4ettgha60s"]
+
+[node name="Card" type="Control" unique_id=838335322]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="CardBtn" type="TextureButton" parent="." unique_id=1065634912]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
