@@ -242,32 +242,6 @@ func handle_command(command: String) -> void:
 			return
 
 # ---/ROOM HELPERS/
-#func generate_deck() -> void:
-	#for key in card_data:
-		#for values in card_data[key]:
-			#var card_values = card_data[key][values]
-			#card_values["suit"] = key
-			#card_values["id"] = (card_values.suit + card_values.id)
-			#var suit = card_values.suit
-			#match suit:
-				#SPADES:
-					#card_values["asset_id"] = "s" + str(card_values.value)
-				#CLUBS:
-					#card_values["asset_id"] = "c" + str(card_values.value)
-				#HEARTS:
-					#card_values["asset_id"] = "h" + str(card_values.value)
-				#DIAMONDS:
-					#card_values["asset_id"] = "d" + str(card_values.value)
-			#
-			#card_values.erase("suit")
-			#deck.append(card_values)
-	#
-	#deck.shuffle()
-	#deck_max = deck.size()
-	#deck_count = deck.size()
-	#_emit_stats()
-	#fill()
-
 func generate_deck() -> void:
 	for suit_data in card_suit:
 		var suit = card_suit[suit_data]["suit"]
@@ -312,6 +286,7 @@ func fill() -> void:
 	while room.size() < 4:
 		room.append(deck[0])
 		deck.remove_at(0)
+	print(room)
 	_emit_room()
 	_emit_stats()
 
@@ -441,7 +416,7 @@ func barehand() -> void:
 	
 	_say("▻YOU ATTACK THE ENEMY (" + str(enemy.id) + ") BAREHANDED\n\n")
 	_say("▻(" + str(dmg_taken) + ") DAMAGE TAKEN\n\n")
-	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED")
+	_say("▻ENEMY (" + str(enemy.id) + ") DEFEATED\n\n")
 	
 	if hp == 0:
 		_emit_game_over()

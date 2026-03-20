@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
+[ext_resource type="Texture2D" uid="uid://dyn7owakmwyoc" path="res://Card Icons/clubs_10.png" id="2_4gp0m"]
 [ext_resource type="Theme" uid="uid://dxdk0vltuxo8a" path="res://Themes/card_theme.tres" id="2_21xkr"]
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
+[ext_resource type="Texture2D" uid="uid://87m2ytdwgsdd" path="res://Card Icons/diamonds_9.png" id="3_phao3"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gp0m"]
+bg_color = Color(0.44291073, 0.4429108, 0.4429106, 1)
 
 [sub_resource type="InputEventKey" id="InputEventKey_kry3j"]
 pressed = true
@@ -93,36 +98,90 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MainHbox" type="HBoxContainer" parent="MainBody" unique_id=1796188928]
+[node name="MainBackgroundPanel" type="PanelContainer" parent="MainBody" unique_id=1617405255]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gp0m")
+
+[node name="MainHbox" type="HBoxContainer" parent="MainBody/MainBackgroundPanel" unique_id=1796188928]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="LeftBodyMargin" type="MarginContainer" parent="MainBody/MainHbox" unique_id=1926677677]
+[node name="LeftBodyMargin" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox" unique_id=1926677677]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LeftVContainer" type="VBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin" unique_id=1894783938]
+[node name="LeftVContainer" type="VBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin" unique_id=1894783938]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=775795607]
+[node name="Control" type="Control" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=241631360]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 20
-alignment = 1
 
-[node name="RoomRow" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=536191334]
+[node name="RoomRowMargin" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=774545643]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RoomRow" type="HBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin" unique_id=536191334]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="YesNoContainer" type="VBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=1039954433]
+[node name="Control" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=966242367]
+visible = false
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control" unique_id=1979451019]
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+texture_normal = ExtResource("2_4gp0m")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="Control2" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=339021611]
+visible = false
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control2" unique_id=1796781795]
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+texture_normal = ExtResource("2_4gp0m")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Control3" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=47128129]
+visible = false
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control3" unique_id=1510793937]
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+texture_normal = ExtResource("3_phao3")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Control4" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=1908648434]
+visible = false
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control4" unique_id=2055141276]
+custom_minimum_size = Vector2(190, 270)
+layout_mode = 2
+texture_normal = ExtResource("2_4gp0m")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="YesNoContainer" type="VBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=1039954433]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
 alignment = 1
 
-[node name="LowCeilingBarehandPrompt" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=1633811766]
+[node name="LowCeilingBarehandPrompt" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=1633811766]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -131,7 +190,7 @@ text = "WEAPON LIMIT TOO LOW.
 FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
-[node name="NoWeaponBarehandPrompt" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=1853648208]
+[node name="NoWeaponBarehandPrompt" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=1853648208]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -140,7 +199,7 @@ text = "NO WEAPON EQUIPPED.
 FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
-[node name="ChooseBarehandPrompt" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=608003989]
+[node name="ChooseBarehandPrompt" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=608003989]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -148,7 +207,7 @@ theme_override_constants/line_spacing = 0
 text = "FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
-[node name="FleePrompt" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=270960075]
+[node name="FleePrompt" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=270960075]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -156,13 +215,13 @@ theme_override_constants/line_spacing = 0
 text = "FLEE ROOM?"
 horizontal_alignment = 1
 
-[node name="BHYesNoRow" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=1815270369]
+[node name="BHYesNoRow" type="HBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=1815270369]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="BtnYesBH" type="Button" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow" unique_id=501634963]
+[node name="BtnYesBH" type="Button" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow" unique_id=501634963]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
@@ -170,7 +229,7 @@ size_flags_vertical = 8
 shortcut = SubResource("Shortcut_21xkr")
 text = "YES"
 
-[node name="BtnNoBH" type="Button" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow" unique_id=896074659]
+[node name="BtnNoBH" type="Button" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow" unique_id=896074659]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
@@ -178,27 +237,27 @@ size_flags_vertical = 8
 shortcut = SubResource("Shortcut_21xkr")
 text = "NO"
 
-[node name="FleeYesNoRow" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=730054076]
+[node name="FleeYesNoRow" type="HBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=730054076]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="BtnYesFlee" type="Button" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow" unique_id=1886316803]
+[node name="BtnYesFlee" type="Button" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow" unique_id=1886316803]
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 size_flags_vertical = 8
 shortcut = SubResource("Shortcut_21xkr")
 text = "YES"
 
-[node name="BtnNoFlee" type="Button" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow" unique_id=295320409]
+[node name="BtnNoFlee" type="Button" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow" unique_id=295320409]
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 size_flags_vertical = 8
 shortcut = SubResource("Shortcut_21xkr")
 text = "NO"
 
-[node name="NextRoomBtn" type="Button" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=846358075]
+[node name="NextRoomBtn" type="Button" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer" unique_id=846358075]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(100, 25)
@@ -208,13 +267,13 @@ size_flags_vertical = 8
 shortcut = SubResource("Shortcut_21xkr")
 text = "NEXT ROOM"
 
-[node name="PlayerInfo" type="HBoxContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=925087642]
+[node name="PlayerInfo" type="HBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=925087642]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="DeckLabel" type="RichTextLabel" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=1867162886]
+[node name="DeckLabel" type="RichTextLabel" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=1867162886]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -222,7 +281,7 @@ theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/DeckLabel" unique_id=1802540515]
+[node name="Label" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/DeckLabel" unique_id=1802540515]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -232,7 +291,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_344ge")
 text = "DECK COUNT"
 horizontal_alignment = 1
 
-[node name="Weapon" type="RichTextLabel" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=1193184984]
+[node name="Weapon" type="RichTextLabel" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=1193184984]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -241,7 +300,7 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WeaponLabel" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon" unique_id=1395674259]
+[node name="WeaponLabel" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon" unique_id=1395674259]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -251,7 +310,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ynf5e")
 text = "PLAYER ATK"
 horizontal_alignment = 1
 
-[node name="WeaponLimitMargin" type="MarginContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon" unique_id=1762487791]
+[node name="WeaponLimitMargin" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon" unique_id=1762487791]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -263,12 +322,12 @@ theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 3
 
-[node name="WeaponLimitLabel" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon/WeaponLimitMargin" unique_id=1356904095]
+[node name="WeaponLimitLabel" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon/WeaponLimitMargin" unique_id=1356904095]
 unique_name_in_owner = true
 layout_mode = 2
 vertical_alignment = 1
 
-[node name="BarehandToggleMargin" type="MarginContainer" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon" unique_id=2138938607]
+[node name="BarehandToggleMargin" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon" unique_id=2138938607]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -278,14 +337,14 @@ offset_right = 84.0
 grow_vertical = 0
 theme_override_constants/margin_left = 7
 
-[node name="BarehandToggle" type="CheckButton" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon/BarehandToggleMargin" unique_id=1522692640]
+[node name="BarehandToggle" type="CheckButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon/BarehandToggleMargin" unique_id=1522692640]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxEmpty_kry3j")
 text = "BAREHAND?"
 
-[node name="Potion" type="RichTextLabel" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=467346728]
+[node name="Potion" type="RichTextLabel" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=467346728]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -293,7 +352,7 @@ theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Potion" unique_id=1469717316]
+[node name="Label" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Potion" unique_id=1469717316]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -303,7 +362,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_hptm8")
 text = "POTION"
 horizontal_alignment = 1
 
-[node name="DiscardLabel" type="RichTextLabel" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=501278342]
+[node name="DiscardLabel" type="RichTextLabel" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo" unique_id=501278342]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -311,7 +370,7 @@ theme = ExtResource("2_21xkr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/DiscardLabel" unique_id=1297183575]
+[node name="Label" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/DiscardLabel" unique_id=1297183575]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -321,26 +380,26 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_d1ilt")
 text = "DISCARD PILE"
 horizontal_alignment = 1
 
-[node name="RightBodyMargin" type="MarginContainer" parent="MainBody/MainHbox" unique_id=2127373242]
+[node name="RightBodyMargin" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox" unique_id=2127373242]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 
-[node name="RightVContainer" type="VBoxContainer" parent="MainBody/MainHbox/RightBodyMargin" unique_id=1723780868]
+[node name="RightVContainer" type="VBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin" unique_id=1723780868]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RunInfoBox" type="PanelContainer" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer" unique_id=606111376]
+[node name="RunInfoBox" type="PanelContainer" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer" unique_id=606111376]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bo1nx")
 
-[node name="StatRow" type="HBoxContainer" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox" unique_id=1000970754]
+[node name="StatRow" type="HBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox" unique_id=1000970754]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 alignment = 1
 
-[node name="HpLabel" type="Label" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=190761986]
+[node name="HpLabel" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=190761986]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
@@ -348,11 +407,11 @@ size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
-[node name="VSeparator1" type="VSeparator" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=837647594]
+[node name="VSeparator1" type="VSeparator" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=837647594]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
-[node name="GoldLabel" type="Label" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=463055657]
+[node name="GoldLabel" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=463055657]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
@@ -360,11 +419,11 @@ size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=794492760]
+[node name="VSeparator2" type="VSeparator" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=794492760]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
 
-[node name="RoomNumberLabel" type="Label" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=1894627194]
+[node name="RoomNumberLabel" type="Label" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=1894627194]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
@@ -372,17 +431,17 @@ size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
 horizontal_alignment = 1
 
-[node name="LogContainer" type="PanelContainer" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer" unique_id=1246218966]
+[node name="LogContainer" type="PanelContainer" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer" unique_id=1246218966]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/LogContainer" unique_id=928363174]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/LogContainer" unique_id=928363174]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="TextMargin" type="MarginContainer" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/LogContainer/ScrollContainer" unique_id=1543781834]
+[node name="TextMargin" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/LogContainer/ScrollContainer" unique_id=1543781834]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -391,7 +450,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 0
 
-[node name="TextLog" type="RichTextLabel" parent="MainBody/MainHbox/RightBodyMargin/RightVContainer/LogContainer/ScrollContainer/TextMargin" unique_id=2092176170]
+[node name="TextLog" type="RichTextLabel" parent="MainBody/MainBackgroundPanel/MainHbox/RightBodyMargin/RightVContainer/LogContainer/ScrollContainer/TextMargin" unique_id=2092176170]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
@@ -461,9 +520,9 @@ stream = ExtResource("3_8gbba")
 [node name="AttackSFX" type="AudioStreamPlayer" parent="." unique_id=1178489174]
 stream = ExtResource("4_jjvhh")
 
-[connection signal="pressed" from="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow/BtnYesBH" to="." method="_on_barehand_yes_pressed"]
-[connection signal="pressed" from="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow/BtnNoBH" to="." method="_on_barehand_no_pressed"]
-[connection signal="pressed" from="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow/BtnYesFlee" to="." method="_on_btn_yes_flee_pressed"]
-[connection signal="pressed" from="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow/BtnNoFlee" to="." method="_on_btn_no_flee_pressed"]
-[connection signal="pressed" from="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
-[connection signal="toggled" from="MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon/BarehandToggleMargin/BarehandToggle" to="." method="_on_barehand_toggle_toggled"]
+[connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow/BtnYesBH" to="." method="_on_barehand_yes_pressed"]
+[connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow/BtnNoBH" to="." method="_on_barehand_no_pressed"]
+[connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow/BtnYesFlee" to="." method="_on_btn_yes_flee_pressed"]
+[connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/FleeYesNoRow/BtnNoFlee" to="." method="_on_btn_no_flee_pressed"]
+[connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/NextRoomBtn" to="." method="_on_next_room_btn_pressed"]
+[connection signal="toggled" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/PlayerInfo/Weapon/BarehandToggleMargin/BarehandToggle" to="." method="_on_barehand_toggle_toggled"]

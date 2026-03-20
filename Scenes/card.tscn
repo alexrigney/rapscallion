@@ -2,24 +2,13 @@
 
 [ext_resource type="Theme" uid="uid://dxdk0vltuxo8a" path="res://Themes/card_theme.tres" id="1_0qqmn"]
 [ext_resource type="Script" uid="uid://bpidt1eaqern2" path="res://Scripts/card.gd" id="2_wf8id"]
-[ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="3_brehn"]
 
-[node name="Card" type="Control" unique_id=838335322]
-layout_mode = 3
-anchors_preset = 0
+[node name="Card" type="MarginContainer" unique_id=433962644]
+offset_right = 8.0
+offset_bottom = 8.0
 theme = ExtResource("1_0qqmn")
 script = ExtResource("2_wf8id")
 
-[node name="CardBtn" type="TextureButton" parent="." unique_id=1065634912]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Button" type="Button" parent="." unique_id=1756545950]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="GameState" type="Node" parent="." unique_id=1484866723]
-script = ExtResource("3_brehn")
+[node name="CardIcon" type="TextureButton" parent="." unique_id=1033880964]
+unique_name_in_owner = true
+layout_mode = 2

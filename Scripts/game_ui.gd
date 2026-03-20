@@ -1,7 +1,6 @@
 extends Control
 
 # ---/NODE VARIABLES/---
-#region
 @onready var text_log: RichTextLabel = %TextLog
 @onready var room_row: HBoxContainer = %RoomRow
 @onready var hp_label: Label = %HpLabel
@@ -31,8 +30,8 @@ extends Control
 @onready var card_theme: Theme = preload("res://Themes/card_theme.tres")
 
 @onready var state: GameState = $GameState
-#endregion
 
+# ---/CONSTANTS/---
 const CARD_SCN: PackedScene = preload("res://Scenes/card.tscn")
 
 
@@ -58,46 +57,18 @@ func _on_room_updated(room: Array) -> void:
 		child.queue_free()
 		
 	var counter: int = 0
-	var card_drawn := CARD_SCN.instantiate() as Card
 
 	for key in room:
-		room_row.add_child(card_drawn)
-		card_drawn.draw_card(key)
+		var card := CARD_SCN.instantiate() as Card
+		room_row.add_child(card)
+		print(card)
+		card.set_card(key)
 
 		if room[int(counter)] == key:
-			card_drawn.name = "card_" + str(counter)
-			card_drawn.pressed.connect(_on_btn_card_pressed.bind(card_drawn.name))
-		
-		counter += 1
-		await get_tree().process_frame
-
-	#var counter: int = 0
-	#
-	#for key in room:
-		#var c = Button.new()
-		#c.custom_minimum_size = Vector2(190, 270)
-		#c.theme = card_theme
-		#
-		#if key != {}:
-			#c.text = key.id
-			#match key.type:
-				#"enemy":
-					#c.add_theme_color_override(
-					#"font_color", Color(0.081, 0.081, 0.081, 1.0))
-				#_:
-					#c.add_theme_color_override(
-					#"font_color", Color(0.706, 0.067, 0.188, 1.0))
-		#else:
-			#c.text = ""
-		#
-		#if room[int(counter)] == key:
-			#c.name = "card_" + str(counter)
-			#c.pressed.connect(_on_btn_card_pressed.bind(c.name))
-			#print(c.name)
-		#
-		#counter += 1
-		#
-		#room_row.add_child(c)
+			var card_btn = card.get_child(0)
+			card_btn.name = "btn_" + str(counter)
+			card_btn.pressed.connect(_on_btn_card_pressed.bind(card_btn.name))
+			counter += 1
 
 
 func move_next(_next_room) -> void:
@@ -161,13 +132,13 @@ func _on_player_wins(_player_wins: bool) -> void:
 
 func _on_btn_card_pressed(button: String) -> void:
 	match button:
-		"card_0":
+		"btn_0":
 			state.handle_command("first")
-		"card_1":
+		"btn_1":
 			state.handle_command("second")
-		"card_2":
+		"btn_2":
 			state.handle_command("third")
-		"card_3":
+		"btn_3":
 			state.handle_command("fourth")
 
 

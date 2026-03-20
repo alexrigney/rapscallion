@@ -1,23 +1,18 @@
 extends Control
 class_name Card
 
+@onready var card_icon: TextureButton = %CardIcon
 @onready var card_theme: Theme = preload("res://Themes/card_theme.tres")
-@onready var state: GameState = $GameState
 
-func draw_card(card: Dictionary) -> void:
+
+func set_card(card_data: Dictionary) -> void:
 	
-	var c = Button.new()
-	c.custom_minimum_size = Vector2(190, 270)
-	c.theme = card_theme
+	card_icon.custom_minimum_size = Vector2(190, 270)
+	card_icon.theme = card_theme
+	card_icon.ignore_texture_size = true
+	card_icon.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT
 	
-	if card != {}:
-		c.text = card.id
-		match card.type:
-			"enemy":
-				c.add_theme_color_override(
-				"font_color", Color(0.081, 0.081, 0.081, 1.0))
-			_:
-				c.add_theme_color_override(
-				"font_color", Color(0.706, 0.067, 0.188, 1.0))
+	if card_data != {}:
+		card_icon.texture_normal = ResourceLoader.load("res://Card Icons/" + card_data.asset_id + ".png")
 	else:
-		c.text = ""
+		card_icon.texture_normal = null
