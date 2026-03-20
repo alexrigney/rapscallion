@@ -195,22 +195,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and not event.echo:
 			match event.keycode:
 				KEY_1:
-					print("key1")
 					handle_command("first")
 				KEY_2:
-					print("key2")
 					handle_command("second")
 				KEY_3:
-					print("key3")
 					handle_command("third")
 				KEY_4:
-					print("key4")
 					handle_command("fourth")
 				KEY_P:
-					print("keyP")
 					handle_command("heal")
 				KEY_F:
-					print("keyF")
 					handle_command("flee")
 
 
@@ -283,11 +277,18 @@ func generate_deck() -> void:
 			var rank = card_rank[rank_data]["rank"]
 			var value = card_rank[rank_data]["value"]
 			var card = {}
+			
 			card["id"] = (suit + rank)
 			card["suit"] = suit
 			card["type"] = type
 			card["value"] = value
+			
+			if card["type"] != "enemy":
+				if card["value"] > 10:
+					continue
+					
 			deck.append(card)
+	
 	
 	for card in deck:
 		match card.suit:

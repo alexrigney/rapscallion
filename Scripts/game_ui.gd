@@ -1,16 +1,17 @@
 extends Control
 
+# ---/NODE VARIABLES/---
+#region
 @onready var text_log: RichTextLabel = %TextLog
 @onready var room_row: HBoxContainer = %RoomRow
-@onready var player_info: HBoxContainer = %PlayerInfo
 @onready var hp_label: Label = %HpLabel
 @onready var gold_label: Label = %GoldLabel
 @onready var room_number_label: Label = %RoomNumberLabel
 
 @onready var deck_label_: RichTextLabel = %DeckLabel
-@onready var weapon_label_: RichTextLabel = %Weapon
-@onready var weapon_limit_: Label = %WeaponLimitLabel
-@onready var potion_label_: RichTextLabel = %Potion
+@onready var weapon_label: RichTextLabel = %Weapon
+@onready var limit_label: Label = %WeaponLimitLabel
+@onready var potion_label: RichTextLabel = %Potion
 @onready var discard_label: RichTextLabel = %DiscardLabel
 
 @onready var next_room_btn: Button = %NextRoomBtn
@@ -24,15 +25,15 @@ extends Control
 @onready var bh_yes_no_row: HBoxContainer = %BHYesNoRow
 @onready var flee_yes_no_row: HBoxContainer = %FleeYesNoRow
 
-@onready var yes_bh: Button = %BtnYesBH
-@onready var no_bh: Button = %BtnNoBH
-
 @onready var game_over_screen: Panel = %GameOverScreen
 @onready var player_wins_screen: Panel = %PlayerWinsScreen
 
 @onready var card_theme: Theme = preload("res://Themes/card_theme.tres")
 
 @onready var state: GameState = $GameState
+#endregion
+
+const CARD_SCN: PackedScene = preload("res://Scenes/card.tscn")
 
 
 func _ready() -> void:
@@ -55,34 +56,48 @@ func say(text: String) -> void:
 func _on_room_updated(room: Array) -> void:
 	for child in room_row.get_children():
 		child.queue_free()
-	
+		
 	var counter: int = 0
-	
+	var card_drawn := CARD_SCN.instantiate() as Card
+
 	for key in room:
-		var c = Button.new()
-		c.custom_minimum_size = Vector2(190, 270)
-		c.theme = card_theme
-		
-		if key != {}:
-			c.text = key.id
-			match key.type:
-				"enemy":
-					c.add_theme_color_override(
-					"font_color", Color(0.081, 0.081, 0.081, 1.0))
-				_:
-					c.add_theme_color_override(
-					"font_color", Color(0.706, 0.067, 0.188, 1.0))
-		else:
-			c.text = ""
-		
+		room_row.add_child(card_drawn)
+		card_drawn.draw_card(key)
+
 		if room[int(counter)] == key:
-			c.name = "card_" + str(counter)
-			c.pressed.connect(_on_btn_card_pressed.bind(c.name))
-			print(c.name)
+			card_drawn.name = "card_" + str(counter)
+			card_drawn.pressed.connect(_on_btn_card_pressed.bind(card_drawn.name))
 		
 		counter += 1
-		
-		room_row.add_child(c)
+		await get_tree().process_frame
+
+	#var counter: int = 0
+	#
+	#for key in room:
+		#var c = Button.new()
+		#c.custom_minimum_size = Vector2(190, 270)
+		#c.theme = card_theme
+		#
+		#if key != {}:
+			#c.text = key.id
+			#match key.type:
+				#"enemy":
+					#c.add_theme_color_override(
+					#"font_color", Color(0.081, 0.081, 0.081, 1.0))
+				#_:
+					#c.add_theme_color_override(
+					#"font_color", Color(0.706, 0.067, 0.188, 1.0))
+		#else:
+			#c.text = ""
+		#
+		#if room[int(counter)] == key:
+			#c.name = "card_" + str(counter)
+			#c.pressed.connect(_on_btn_card_pressed.bind(c.name))
+			#print(c.name)
+		#
+		#counter += 1
+		#
+		#room_row.add_child(c)
 
 
 func move_next(_next_room) -> void:
@@ -97,22 +112,22 @@ func _on_stats_changed(hp: int, max_hp: int, gold: int, room_number: int, deck: 
 	room_number_label.text = "ROOM: %d" % [room_number]
 	
 	if _limit_not_set == true:
-		weapon_limit_.text = ""
+		limit_label.text = ""
 	else:
-		weapon_limit_.text = "LIMIT: " + str(weapon_limit)
+		limit_label.text = "LIMIT: " + str(weapon_limit)
 
 
 func _on_inventory_changed(weapon: Dictionary, potion: Dictionary) -> void:
 	if weapon == {}:
-		weapon_label_.text = "--"
+		weapon_label.text = "--"
 	else:
-		weapon_label_.text = "--"
-		weapon_label_.text = weapon.id
-		weapon_label_.add_theme_color_override("font_color", Color.CRIMSON)
+		weapon_label.text = "--"
+		weapon_label.text = weapon.id
+		weapon_label.add_theme_color_override("font_color", Color.CRIMSON)
 	if potion == {}:
-		potion_label_.text = "--"
+		potion_label.text = "--"
 	else:
-		potion_label_.text = str(potion.id)
+		potion_label.text = str(potion.id)
 
 
 func _on_barehand_prompt(weapon: Dictionary, _choose_barehanded: bool) -> void:
