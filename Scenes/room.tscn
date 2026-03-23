@@ -2,14 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bch0i4pnhb8ks" path="res://Scripts/game_ui.gd" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cx46cdgmqt7" path="res://Scripts/game_state.gd" id="1_jjgbg"]
-[ext_resource type="Texture2D" uid="uid://dyn7owakmwyoc" path="res://Card Icons/clubs_10.png" id="2_4gp0m"]
 [ext_resource type="Theme" uid="uid://dxdk0vltuxo8a" path="res://Themes/card_theme.tres" id="2_21xkr"]
+[ext_resource type="Texture2D" uid="uid://bqrwpptw8o4od" path="res://Images/px_bg.jpg" id="2_nfrpb"]
 [ext_resource type="AudioStream" uid="uid://bknp2p4wyn6kn" path="res://Music/background_music.mp3" id="3_8gbba"]
-[ext_resource type="Texture2D" uid="uid://87m2ytdwgsdd" path="res://Card Icons/diamonds_9.png" id="3_phao3"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gp0m"]
-bg_color = Color(0.44291073, 0.4429108, 0.4429106, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4gp0m"]
+texture = ExtResource("2_nfrpb")
 
 [sub_resource type="InputEventKey" id="InputEventKey_kry3j"]
 pressed = true
@@ -53,7 +52,7 @@ border_width_bottom = 1
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo1nx"]
-bg_color = Color(0.08078333, 0.08078336, 0.08078327, 0.6901961)
+bg_color = Color(0.08235294, 0.08235294, 0.08235294, 0.92156863)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -70,7 +69,7 @@ grow_end = -3.0
 vertical = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
-bg_color = Color(0.099985994, 0.09998601, 0.099985965, 0.46666667)
+bg_color = Color(0.09803922, 0.09803922, 0.09803922, 0.92156863)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -100,7 +99,7 @@ grow_vertical = 2
 
 [node name="MainBackgroundPanel" type="PanelContainer" parent="MainBody" unique_id=1617405255]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4gp0m")
+theme_override_styles/panel = SubResource("StyleBoxTexture_4gp0m")
 
 [node name="MainHbox" type="HBoxContainer" parent="MainBody/MainBackgroundPanel" unique_id=1796188928]
 layout_mode = 2
@@ -125,55 +124,8 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 15
 alignment = 1
-
-[node name="Control" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=966242367]
-visible = false
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control" unique_id=1979451019]
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-texture_normal = ExtResource("2_4gp0m")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="Control2" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=339021611]
-visible = false
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control2" unique_id=1796781795]
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-texture_normal = ExtResource("2_4gp0m")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Control3" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=47128129]
-visible = false
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control3" unique_id=1510793937]
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-texture_normal = ExtResource("3_phao3")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Control4" type="MarginContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow" unique_id=1908648434]
-visible = false
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin/RoomRow/Control4" unique_id=2055141276]
-custom_minimum_size = Vector2(190, 270)
-layout_mode = 2
-texture_normal = ExtResource("2_4gp0m")
-ignore_texture_size = true
-stretch_mode = 0
 
 [node name="YesNoContainer" type="VBoxContainer" parent="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=1039954433]
 unique_name_in_owner = true
@@ -519,6 +471,10 @@ stream = ExtResource("3_8gbba")
 
 [node name="AttackSFX" type="AudioStreamPlayer" parent="." unique_id=1178489174]
 stream = ExtResource("4_jjvhh")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1297288690]
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=1129548559]
 
 [connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow/BtnYesBH" to="." method="_on_barehand_yes_pressed"]
 [connection signal="pressed" from="MainBody/MainBackgroundPanel/MainHbox/LeftBodyMargin/LeftVContainer/YesNoContainer/BHYesNoRow/BtnNoBH" to="." method="_on_barehand_no_pressed"]

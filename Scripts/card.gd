@@ -7,7 +7,7 @@ class_name Card
 
 func set_card(card_data: Dictionary) -> void:
 	
-	card_icon.custom_minimum_size = Vector2(190, 270)
+	card_icon.custom_minimum_size = Vector2(210, 300)
 	card_icon.theme = card_theme
 	card_icon.ignore_texture_size = true
 	card_icon.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT
@@ -15,4 +15,4 @@ func set_card(card_data: Dictionary) -> void:
 	if card_data != {}:
 		card_icon.texture_normal = ResourceLoader.load("res://Card Icons/" + card_data.asset_id + ".png")
 	else:
-		card_icon.texture_normal = null
+		card_icon.texture_normal = ResourceLoader.load("res://Card Icons/blank.png")

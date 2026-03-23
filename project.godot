@@ -13,13 +13,13 @@ config_version=5
 config/name="SCOUNDREL"
 run/main_scene="uid://boayar3alcv5c"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://Icons/icon.svg"
+config/icon="res://Images/icon.svg"
 
 [file_customization]
 
 folder_colors={
 "res://Card Icons/": "red",
-"res://Icons/": "gray",
+"res://Images/": "gray",
 "res://Music/": "purple",
 "res://SFX/": "green",
 "res://Scripts/": "yellow"
