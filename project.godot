@@ -19,10 +19,13 @@ config/icon="res://Images/icon.svg"
 
 folder_colors={
 "res://Card Icons/": "red",
-"res://Images/": "gray",
+"res://Fonts/": "teal",
+"res://Images/": "orange",
 "res://Music/": "purple",
 "res://SFX/": "green",
-"res://Scripts/": "yellow"
+"res://Scripts/": "yellow",
+"res://Textures/": "pink",
+"res://Themes/": "gray"
 }
 
 [physics]
