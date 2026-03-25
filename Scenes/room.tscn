@@ -9,10 +9,15 @@
 [ext_resource type="Theme" uid="uid://crmfdw7o3bceh" path="res://Themes/prompt_theme.tres" id="4_jghof"]
 [ext_resource type="AudioStream" uid="uid://ctswqs16ovi64" path="res://SFX/sword_slice.wav" id="4_jjvhh"]
 [ext_resource type="Script" uid="uid://bcl71wxldnrg5" path="res://Scenes/bg_camera.gd" id="4_ojh4s"]
+[ext_resource type="Texture2D" uid="uid://bnkjdm5nca8ta" path="res://Card Icons/test/ClassicCardsDark.png" id="5_5fqy3"]
 [ext_resource type="Theme" uid="uid://cv5bec7n28rt6" path="res://Themes/prompt_button.tres" id="5_wph6n"]
 [ext_resource type="Texture2D" uid="uid://c62jpi7txwvgl" path="res://Textures/Medium/Stone/256_Stone Rubble 01.png" id="6_jghof"]
 [ext_resource type="Theme" uid="uid://bowtc5t2gasl8" path="res://Themes/player_info.tres" id="7_jghof"]
 [ext_resource type="FontFile" uid="uid://bqb5x0y8um8p3" path="res://Fonts/Minecraft.ttf" id="10_5fqy3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08xfw"]
+atlas = ExtResource("5_5fqy3")
+region = Rect2(0, 0, 23, 35)
 
 [sub_resource type="InputEventKey" id="InputEventKey_kry3j"]
 pressed = true
@@ -20,19 +25,6 @@ keycode = 4194309
 
 [sub_resource type="Shortcut" id="Shortcut_21xkr"]
 events = [SubResource("InputEventKey_kry3j")]
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_phao3"]
-color = Color(0, 0, 0, 0.5411765)
-thickness = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ojh4s"]
-texture = ExtResource("6_jghof")
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_03u2k"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kry3j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo1nx"]
 bg_color = Color(0.08235294, 0.08235294, 0.08235294, 0.92156863)
@@ -58,6 +50,15 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_blend = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ojh4s"]
+texture = ExtResource("6_jghof")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_03u2k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kry3j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjvhh"]
 bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.25490198)
@@ -92,50 +93,109 @@ mouse_filter = 1
 theme = ExtResource("3_03u2k")
 script = ExtResource("1_bo1nx")
 
-[node name="MainBody" type="MarginContainer" parent="UI/GameUI" unique_id=1607399402]
+[node name="RoomRowMargin" type="MarginContainer" parent="UI/GameUI" unique_id=774545643]
+visible = false
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
 grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MainHbox" type="HBoxContainer" parent="UI/GameUI/MainBody" unique_id=1796188928]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="LeftBodyMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox" unique_id=1926677677]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LeftVContainer" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin" unique_id=1894783938]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="RoomRowMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=774545643]
-layout_mode = 2
 size_flags_vertical = 3
 
-[node name="RoomRow" type="HBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/RoomRowMargin" unique_id=536191334]
+[node name="RoomRow" type="HBoxContainer" parent="UI/GameUI/RoomRowMargin" unique_id=536191334]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="YesNoMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=878017215]
+[node name="TextureButton" type="TextureButton" parent="UI/GameUI/RoomRowMargin/RoomRow" unique_id=495485891]
 layout_mode = 2
+texture_normal = SubResource("AtlasTexture_08xfw")
+
+[node name="TextureButton2" type="TextureButton" parent="UI/GameUI/RoomRowMargin/RoomRow" unique_id=433617351]
+layout_mode = 2
+
+[node name="TextureButton3" type="TextureButton" parent="UI/GameUI/RoomRowMargin/RoomRow" unique_id=1009400171]
+layout_mode = 2
+
+[node name="TextureButton4" type="TextureButton" parent="UI/GameUI/RoomRowMargin/RoomRow" unique_id=506243102]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/GameUI/RoomRowMargin/RoomRow" unique_id=1693542297]
+texture = ExtResource("5_5fqy3")
+centered = false
+hframes = 13
+vframes = 4
+frame = 1
+region_enabled = true
+
+[node name="RoomRowMargin2" type="MarginContainer" parent="UI/GameUI" unique_id=185075187]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+size_flags_vertical = 3
+
+[node name="RoomRow" type="HBoxContainer" parent="UI/GameUI/RoomRowMargin2" unique_id=1573793906]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="UI/GameUI/RoomRowMargin2/RoomRow" unique_id=272865694]
+visible = false
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_08xfw")
+
+[node name="TextureButton2" type="TextureButton" parent="UI/GameUI/RoomRowMargin2/RoomRow" unique_id=1328182366]
+visible = false
+layout_mode = 2
+
+[node name="TextureButton3" type="TextureButton" parent="UI/GameUI/RoomRowMargin2/RoomRow" unique_id=454035003]
+visible = false
+layout_mode = 2
+
+[node name="TextureButton4" type="TextureButton" parent="UI/GameUI/RoomRowMargin2/RoomRow" unique_id=760297036]
+visible = false
+layout_mode = 2
+
+[node name="Control" type="Control" parent="UI/GameUI/RoomRowMargin2/RoomRow" unique_id=1581104656]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/GameUI/RoomRowMargin2/RoomRow/Control" unique_id=30724858]
+texture_filter = 3
+scale = Vector2(6, 6)
+texture = ExtResource("5_5fqy3")
+hframes = 13
+vframes = 4
+frame = 5
+
+[node name="YesNoMargin" type="MarginContainer" parent="UI/GameUI" unique_id=878017215]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_bottom = 10
 
-[node name="YesNoContainer" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin" unique_id=1039954433]
+[node name="YesNoContainer" type="VBoxContainer" parent="UI/GameUI/YesNoMargin" unique_id=1039954433]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = ExtResource("7_jghof")
 alignment = 1
 
-[node name="LowCeilingBarehandPrompt" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=1633811766]
+[node name="LowCeilingBarehandPrompt" type="Label" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=1633811766]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -145,7 +205,7 @@ text = "WEAPON LIMIT TOO LOW.
 FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
-[node name="NoWeaponBarehandPrompt" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=1853648208]
+[node name="NoWeaponBarehandPrompt" type="Label" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=1853648208]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -155,7 +215,7 @@ text = "NO WEAPON EQUIPPED.
 FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
-[node name="ChooseBarehandPrompt" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=608003989]
+[node name="ChooseBarehandPrompt" type="Label" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=608003989]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -164,7 +224,7 @@ theme_override_constants/line_spacing = 0
 text = "FIGHT BAREHANDED?"
 horizontal_alignment = 1
 
-[node name="FleePrompt" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=270960075]
+[node name="FleePrompt" type="Label" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=270960075]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -173,13 +233,13 @@ theme_override_constants/line_spacing = 0
 text = "FLEE ROOM?"
 horizontal_alignment = 1
 
-[node name="BHYesNoRow" type="HBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=1815270369]
+[node name="BHYesNoRow" type="HBoxContainer" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=1815270369]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="BtnYesBH" type="Button" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/BHYesNoRow" unique_id=501634963]
+[node name="BtnYesBH" type="Button" parent="UI/GameUI/YesNoMargin/YesNoContainer/BHYesNoRow" unique_id=501634963]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
@@ -188,7 +248,7 @@ theme = ExtResource("5_wph6n")
 shortcut = SubResource("Shortcut_21xkr")
 text = "YES"
 
-[node name="BtnNoBH" type="Button" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/BHYesNoRow" unique_id=896074659]
+[node name="BtnNoBH" type="Button" parent="UI/GameUI/YesNoMargin/YesNoContainer/BHYesNoRow" unique_id=896074659]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
@@ -197,13 +257,13 @@ theme = ExtResource("5_wph6n")
 shortcut = SubResource("Shortcut_21xkr")
 text = "NO"
 
-[node name="FleeYesNoRow" type="HBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=730054076]
+[node name="FleeYesNoRow" type="HBoxContainer" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=730054076]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="BtnYesFlee" type="Button" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/FleeYesNoRow" unique_id=1886316803]
+[node name="BtnYesFlee" type="Button" parent="UI/GameUI/YesNoMargin/YesNoContainer/FleeYesNoRow" unique_id=1886316803]
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 size_flags_vertical = 8
@@ -211,7 +271,7 @@ theme = ExtResource("5_wph6n")
 shortcut = SubResource("Shortcut_21xkr")
 text = "YES"
 
-[node name="BtnNoFlee" type="Button" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/FleeYesNoRow" unique_id=295320409]
+[node name="BtnNoFlee" type="Button" parent="UI/GameUI/YesNoMargin/YesNoContainer/FleeYesNoRow" unique_id=295320409]
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 size_flags_vertical = 8
@@ -219,7 +279,7 @@ theme = ExtResource("5_wph6n")
 shortcut = SubResource("Shortcut_21xkr")
 text = "NO"
 
-[node name="NextRoomBtn" type="Button" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer" unique_id=846358075]
+[node name="NextRoomBtn" type="Button" parent="UI/GameUI/YesNoMargin/YesNoContainer" unique_id=846358075]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(100, 25)
@@ -230,37 +290,125 @@ theme = ExtResource("5_wph6n")
 shortcut = SubResource("Shortcut_21xkr")
 text = "NEXT ROOM"
 
-[node name="HSeparator" type="HSeparator" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=1185623815]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_phao3")
+[node name="RightVContainer" type="VBoxContainer" parent="UI/GameUI" unique_id=1723780868]
+visible = false
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -371.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 0
 
-[node name="PlayerRowPanel" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer" unique_id=1056038734]
+[node name="RunInfoBox" type="PanelContainer" parent="UI/GameUI/RightVContainer" unique_id=606111376]
+visible = false
 layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("7_jghof")
+theme_override_styles/panel = SubResource("StyleBoxFlat_bo1nx")
+
+[node name="StatRow" type="HBoxContainer" parent="UI/GameUI/RightVContainer/RunInfoBox" unique_id=1000970754]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="HpLabel" type="Label" parent="UI/GameUI/RightVContainer/RunInfoBox/StatRow" unique_id=190761986]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
+horizontal_alignment = 1
+
+[node name="VSeparator1" type="VSeparator" parent="UI/GameUI/RightVContainer/RunInfoBox/StatRow" unique_id=837647594]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
+
+[node name="GoldLabel" type="Label" parent="UI/GameUI/RightVContainer/RunInfoBox/StatRow" unique_id=463055657]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="UI/GameUI/RightVContainer/RunInfoBox/StatRow" unique_id=794492760]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
+
+[node name="RoomNumberLabel" type="Label" parent="UI/GameUI/RightVContainer/RunInfoBox/StatRow" unique_id=1894627194]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(115, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
+horizontal_alignment = 1
+
+[node name="LogContainer" type="PanelContainer" parent="UI/GameUI/RightVContainer" unique_id=1246218966]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = ExtResource("7_jghof")
+theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/GameUI/RightVContainer/LogContainer" unique_id=928363174]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="TextMargin" type="MarginContainer" parent="UI/GameUI/RightVContainer/LogContainer/ScrollContainer" unique_id=1543781834]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="TextLog" type="RichTextLabel" parent="UI/GameUI/RightVContainer/LogContainer/ScrollContainer/TextMargin" unique_id=2092176170]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+fit_content = true
+
+[node name="PlayerRowPanel" type="PanelContainer" parent="UI/GameUI" unique_id=1056038734]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -168.0
+grow_horizontal = 2
+grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxTexture_ojh4s")
 
-[node name="PlayerInfo" type="HBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel" unique_id=925087642]
+[node name="PlayerInfo" type="HBoxContainer" parent="UI/GameUI/PlayerRowPanel" unique_id=925087642]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("7_jghof")
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="DeckContainer" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo" unique_id=1157968026]
+[node name="DeckContainer" type="PanelContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo" unique_id=1157968026]
 layout_mode = 2
 theme = ExtResource("7_jghof")
 
-[node name="DeckVBox" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/DeckContainer" unique_id=688780454]
+[node name="DeckVBox" type="VBoxContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/DeckContainer" unique_id=688780454]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/DeckContainer/DeckVBox" unique_id=1802540515]
+[node name="Label" type="Label" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/DeckContainer/DeckVBox" unique_id=1802540515]
 layout_mode = 2
 theme_override_constants/line_spacing = 3
 text = "DECK COUNT"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="DeckLabel" type="RichTextLabel" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/DeckContainer/DeckVBox" unique_id=1867162886]
+[node name="DeckLabel" type="RichTextLabel" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/DeckContainer/DeckVBox" unique_id=1867162886]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -269,20 +417,20 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WeaponContainer" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo" unique_id=722000947]
+[node name="WeaponContainer" type="PanelContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo" unique_id=722000947]
 layout_mode = 2
 
-[node name="WeaponVBox" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer" unique_id=1694549708]
+[node name="WeaponVBox" type="VBoxContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer" unique_id=1694549708]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="WeaponLabel" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox" unique_id=1395674259]
+[node name="WeaponLabel" type="Label" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox" unique_id=1395674259]
 layout_mode = 2
 text = "PLAYER ATK"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="Weapon" type="RichTextLabel" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox" unique_id=1193184984]
+[node name="Weapon" type="RichTextLabel" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox" unique_id=1193184984]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -291,7 +439,7 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WeaponLimitMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon" unique_id=1762487791]
+[node name="WeaponLimitMargin" type="MarginContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon" unique_id=1762487791]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -302,14 +450,14 @@ grow_horizontal = 0
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_right = 3
 
-[node name="WeaponLimitLabel" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon/WeaponLimitMargin" unique_id=1356904095]
+[node name="WeaponLimitLabel" type="Label" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon/WeaponLimitMargin" unique_id=1356904095]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_03u2k")
 horizontal_alignment = 3
 
-[node name="BarehandToggleMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon" unique_id=2138938607]
+[node name="BarehandToggleMargin" type="MarginContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon" unique_id=2138938607]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -319,7 +467,7 @@ offset_right = 92.0
 grow_vertical = 0
 theme_override_constants/margin_left = 7
 
-[node name="BarehandToggle" type="CheckButton" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon/BarehandToggleMargin" unique_id=1522692640]
+[node name="BarehandToggle" type="CheckButton" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon/BarehandToggleMargin" unique_id=1522692640]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("10_5fqy3")
@@ -327,20 +475,20 @@ theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxEmpty_kry3j")
 text = "BAREHAND?"
 
-[node name="PotionContainer" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo" unique_id=1981384751]
+[node name="PotionContainer" type="PanelContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo" unique_id=1981384751]
 layout_mode = 2
 
-[node name="PotionVBox" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/PotionContainer" unique_id=1310867757]
+[node name="PotionVBox" type="VBoxContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/PotionContainer" unique_id=1310867757]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/PotionContainer/PotionVBox" unique_id=1469717316]
+[node name="Label" type="Label" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/PotionContainer/PotionVBox" unique_id=1469717316]
 layout_mode = 2
 text = "POTION"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="Potion" type="RichTextLabel" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/PotionContainer/PotionVBox" unique_id=467346728]
+[node name="Potion" type="RichTextLabel" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/PotionContainer/PotionVBox" unique_id=467346728]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -349,20 +497,20 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DiscardContainer" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo" unique_id=612099714]
+[node name="DiscardContainer" type="PanelContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo" unique_id=612099714]
 layout_mode = 2
 
-[node name="DiscardVBox" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/DiscardContainer" unique_id=342480265]
+[node name="DiscardVBox" type="VBoxContainer" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/DiscardContainer" unique_id=342480265]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/DiscardContainer/DiscardVBox" unique_id=1297183575]
+[node name="Label" type="Label" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/DiscardContainer/DiscardVBox" unique_id=1297183575]
 layout_mode = 2
 text = "DISCARD PILE"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="DiscardLabel" type="RichTextLabel" parent="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/DiscardContainer/DiscardVBox" unique_id=501278342]
+[node name="DiscardLabel" type="RichTextLabel" parent="UI/GameUI/PlayerRowPanel/PlayerInfo/DiscardContainer/DiscardVBox" unique_id=501278342]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
@@ -371,94 +519,38 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightBodyMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox" unique_id=2127373242]
+[node name="MainHbox" type="HBoxContainer" parent="UI/GameUI" unique_id=1796188928]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_constants/separation = 0
+
+[node name="LeftBodyMargin" type="MarginContainer" parent="UI/GameUI/MainHbox" unique_id=1926677677]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LeftVContainer" type="VBoxContainer" parent="UI/GameUI/MainHbox/LeftBodyMargin" unique_id=1894783938]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RightBodyMargin" type="MarginContainer" parent="UI/GameUI/MainHbox" unique_id=2127373242]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 
-[node name="RightVContainer" type="VBoxContainer" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin" unique_id=1723780868]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="RunInfoBox" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer" unique_id=606111376]
-layout_mode = 2
-size_flags_vertical = 0
-theme = ExtResource("7_jghof")
-theme_override_styles/panel = SubResource("StyleBoxFlat_bo1nx")
-
-[node name="StatRow" type="HBoxContainer" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox" unique_id=1000970754]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-alignment = 1
-
-[node name="HpLabel" type="Label" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=190761986]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(115, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
-horizontal_alignment = 1
-
-[node name="VSeparator1" type="VSeparator" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=837647594]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
-
-[node name="GoldLabel" type="Label" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=463055657]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(115, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
-horizontal_alignment = 1
-
-[node name="VSeparator2" type="VSeparator" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=794492760]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_bo1nx")
-
-[node name="RoomNumberLabel" type="Label" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/RunInfoBox/StatRow" unique_id=1894627194]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(115, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_8gbba")
-horizontal_alignment = 1
-
-[node name="LogContainer" type="PanelContainer" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer" unique_id=1246218966]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme = ExtResource("7_jghof")
-theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/LogContainer" unique_id=928363174]
-layout_mode = 2
-mouse_filter = 0
-
-[node name="TextMargin" type="MarginContainer" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/LogContainer/ScrollContainer" unique_id=1543781834]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 0
-
-[node name="TextLog" type="RichTextLabel" parent="UI/GameUI/MainBody/MainHbox/RightBodyMargin/RightVContainer/LogContainer/ScrollContainer/TextMargin" unique_id=2092176170]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_filter = 1
-theme_override_font_sizes/normal_font_size = 16
-bbcode_enabled = true
-fit_content = true
-
-[node name="PlayerWinsScreen" type="Panel" parent="UI/GameUI/MainBody" unique_id=1875142742]
+[node name="PlayerWinsScreen" type="Panel" parent="UI/GameUI" unique_id=1875142742]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
 
-[node name="PlayerWinsLabel" type="Label" parent="UI/GameUI/MainBody/PlayerWinsScreen" unique_id=839504360]
-visible = false
+[node name="PlayerWinsLabel" type="Label" parent="UI/GameUI/PlayerWinsScreen" unique_id=839504360]
 custom_minimum_size = Vector2(500, 300)
 layout_mode = 1
 anchors_preset = 8
@@ -478,14 +570,18 @@ text = "YOU WIN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GameOverScreen" type="Panel" parent="UI/GameUI/MainBody" unique_id=794341732]
+[node name="GameOverScreen" type="Panel" parent="UI/GameUI" unique_id=794341732]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jjvhh")
 
-[node name="GameOverLabel" type="Label" parent="UI/GameUI/MainBody/GameOverScreen" unique_id=1050931599]
-visible = false
+[node name="GameOverLabel" type="Label" parent="UI/GameUI/GameOverScreen" unique_id=1050931599]
 custom_minimum_size = Vector2(500, 300)
 layout_mode = 1
 anchors_preset = 8
@@ -514,9 +610,9 @@ stream = ExtResource("3_8gbba")
 [node name="AttackSFX" type="AudioStreamPlayer" parent="UI/GameUI" unique_id=1178489174]
 stream = ExtResource("4_jjvhh")
 
-[connection signal="pressed" from="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/BHYesNoRow/BtnYesBH" to="UI/GameUI" method="_on_barehand_yes_pressed"]
-[connection signal="pressed" from="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/BHYesNoRow/BtnNoBH" to="UI/GameUI" method="_on_barehand_no_pressed"]
-[connection signal="pressed" from="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/FleeYesNoRow/BtnYesFlee" to="UI/GameUI" method="_on_btn_yes_flee_pressed"]
-[connection signal="pressed" from="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/FleeYesNoRow/BtnNoFlee" to="UI/GameUI" method="_on_btn_no_flee_pressed"]
-[connection signal="pressed" from="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/YesNoMargin/YesNoContainer/NextRoomBtn" to="UI/GameUI" method="_on_next_room_btn_pressed"]
-[connection signal="toggled" from="UI/GameUI/MainBody/MainHbox/LeftBodyMargin/LeftVContainer/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon/BarehandToggleMargin/BarehandToggle" to="UI/GameUI" method="_on_barehand_toggle_toggled"]
+[connection signal="pressed" from="UI/GameUI/YesNoMargin/YesNoContainer/BHYesNoRow/BtnYesBH" to="UI/GameUI" method="_on_barehand_yes_pressed"]
+[connection signal="pressed" from="UI/GameUI/YesNoMargin/YesNoContainer/BHYesNoRow/BtnNoBH" to="UI/GameUI" method="_on_barehand_no_pressed"]
+[connection signal="pressed" from="UI/GameUI/YesNoMargin/YesNoContainer/FleeYesNoRow/BtnYesFlee" to="UI/GameUI" method="_on_btn_yes_flee_pressed"]
+[connection signal="pressed" from="UI/GameUI/YesNoMargin/YesNoContainer/FleeYesNoRow/BtnNoFlee" to="UI/GameUI" method="_on_btn_no_flee_pressed"]
+[connection signal="pressed" from="UI/GameUI/YesNoMargin/YesNoContainer/NextRoomBtn" to="UI/GameUI" method="_on_next_room_btn_pressed"]
+[connection signal="toggled" from="UI/GameUI/PlayerRowPanel/PlayerInfo/WeaponContainer/WeaponVBox/Weapon/BarehandToggleMargin/BarehandToggle" to="UI/GameUI" method="_on_barehand_toggle_toggled"]

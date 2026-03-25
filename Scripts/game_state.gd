@@ -21,6 +21,36 @@ const CLUBS = "♣"
 const DIAMONDS = "♦"
 const HEARTS = "♥"
 
+const SUIT_ROW := {
+	"HEARTS": 0,
+	"DIAMONDS": 1,
+	"CLUBS": 2,
+	"SPADES": 3
+}
+
+const RANK_COL := {
+	"A": 0,
+	"2": 1,
+	"3": 2,
+	"4": 3,
+	"5": 4,
+	"6": 5,
+	"7": 6,
+	"8": 7,
+	"9": 8,
+	"10": 9,
+	"J": 10,
+	"Q": 11,
+	"K": 12
+}
+
+const CARD_W := 23
+const CARD_H := 35
+const GAP_X := 1
+const GAP_Y := 1
+const START_X := 0
+const START_Y := 0
+
 # ---/NUMBER VARIABLES/---
 var hp = 1000
 var max_hp = 1000
