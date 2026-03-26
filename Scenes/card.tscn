@@ -22,8 +22,9 @@ offset_bottom = 8.0
 theme = ExtResource("1_0qqmn")
 script = ExtResource("2_wf8id")
 
-[node name="CardIcon" type="TextureButton" parent="." unique_id=1033880964]
+[node name="CardIcon" type="TextureRect" parent="." unique_id=720336023]
 unique_name_in_owner = true
+texture_filter = 3
 layout_mode = 2
 
 [node name="CardBorder" type="Panel" parent="." unique_id=407749316]

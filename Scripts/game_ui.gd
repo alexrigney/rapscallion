@@ -65,9 +65,9 @@ func _on_room_updated(room: Array) -> void:
 		card.set_card(key)
 
 		if room[int(counter)] == key:
-			var card_btn = card.get_child(0)
-			card_btn.name = "btn_" + str(counter)
-			card_btn.pressed.connect(_on_btn_card_pressed.bind(card_btn.name))
+			var card_icon = card.get_child(0)
+			card_icon.name = "card_" + str(counter)
+			#card_btn.pressed.connect(_on_btn_card_pressed.bind(card_btn.name))
 			counter += 1
 
 

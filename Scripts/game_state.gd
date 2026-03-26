@@ -85,67 +85,11 @@ var discard: Array = []
 var enemy: Dictionary = {}
 
 # ---/CARD DATA/---
-#var card_data: Dictionary = {
-	#SPADES:{
-		#"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14, "asset_id":"s1"},
-		#"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
-		#"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
-		#"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
-		#"10":	{"id":"10", "name":"Ten", "type":"enemy", "value":10},
-		#"9":	{"id":"9", "name":"Nine", "type":"enemy", "value":9},
-		#"8":	{"id":"8", "name":"Eight", "type":"enemy", "value":8},
-		#"7":	{"id":"7", "name":"Seven", "type":"enemy", "value":7},
-		#"6":	{"id":"6", "name":"Six", "type":"enemy", "value":6},
-		#"5":	{"id":"5", "name":"Five", "type":"enemy", "value":5},
-		#"4":	{"id":"4", "name":"Four", "type":"enemy", "value":4},
-		#"3":	{"id":"3", "name":"Three", "type":"enemy", "value":3},
-		#"2":	{"id":"2", "name":"Two", "type":"enemy","value":2}
-		#},
-	#CLUBS:{
-		#"A":	{"id":"A", "name":"Ace", "type":"enemy" , "value":14},
-		#"K":	{"id":"K", "name":"King", "type":"enemy", "value":13},
-		#"Q":	{"id":"Q", "name":"Queen", "type":"enemy", "value":12},
-		#"J":	{"id":"J", "name":"Jack", "type":"enemy", "value":11},
-		#"10":	{"id":"10", "name":"Ten", "type":"enemy", "value":10},
-		#"9":	{"id":"9", "name":"Nine", "type":"enemy", "value":9},
-		#"8":	{"id":"8", "name":"Eight", "type":"enemy", "value":8},
-		#"7":	{"id":"7", "name":"Seven", "type":"enemy", "value":7},
-		#"6":	{"id":"6", "name":"Six", "type":"enemy", "value":6},
-		#"5":	{"id":"5", "name":"Five", "type":"enemy", "value":5},
-		#"4":	{"id":"4", "name":"Four", "type":"enemy", "value":4},
-		#"3":	{"id":"3", "name":"Three", "type":"enemy", "value":3},
-		#"2":	{"id":"2", "name":"Two", "type":"enemy", "value":2}
-	#},
-	#HEARTS:{
-		#"10":	{"id":"10", "name":"Ten", "type":"potion", "value":10},
-		#"9":	{"id":"9", "name":"Nine", "type":"potion", "value":9},
-		#"8":	{"id":"8", "name":"Eight", "type":"potion", "value":8},
-		#"7":	{"id":"7", "name":"Seven", "type":"potion", "value":7},
-		#"6":	{"id":"6", "name":"Six", "type":"potion", "value":6},
-		#"5":	{"id":"5", "name":"Five", "type":"potion", "value":5},
-		#"4":	{"id":"4", "name":"Four", "type":"potion", "value":4},
-		#"3":	{"id":"3", "name":"Three", "type":"potion", "value":3},
-		#"2":	{"id":"2", "name":"Two", "type":"potion", "value":2}
-	#},
-	#DIAMONDS:{
-		#"10":	{"id":"10", "name":"Ten", "type":"weapon", "value":10},
-		#"9":	{"id":"9", "name":"Nine", "type":"weapon", "value":9},
-		#"8":	{"id":"8", "name":"Eight", "type":"weapon", "value":8},
-		#"7":	{"id":"7", "name":"Seven", "type":"weapon", "value":7},
-		#"6":	{"id":"6", "name":"Six", "type":"weapon", "value":6},
-		#"5":	{"id":"5", "name":"Five", "type":"weapon", "value":5},
-		#"4":	{"id":"4", "name":"Four", "type":"weapon", "value":4},
-		#"3":	{"id":"3", "name":"Three", "type":"weapon", "value":3},
-		#"2":	{"id":"2", "name":"Two", "type":"weapon", "value":2}
-		#}
-	#}
-
-
 var card_suit: Dictionary = {
-	"SPADES":	{"suit":SPADES, "type":"enemy"},
-	"CLUBS":	{"suit":CLUBS, "type":"enemy"},
-	"DIAMONDS":	{"suit":DIAMONDS, "type":"weapon"},
-	"HEARTS":	{"suit":HEARTS, "type":"potion"}
+	"SPADES":	{"suit": "SPADES", "symbol":SPADES, "type":"enemy"},
+	"CLUBS":	{"suit": "CLUBS", "symbol":CLUBS, "type":"enemy"},
+	"DIAMONDS":	{"suit": "DIAMONDS", "symbol":DIAMONDS, "type":"weapon"},
+	"HEARTS":	{"suit": "HEARTS", "symbol":HEARTS, "type":"potion"}
 }
 
 var card_rank: Dictionary = {
@@ -274,6 +218,7 @@ func handle_command(command: String) -> void:
 # ---/ROOM HELPERS/
 func generate_deck() -> void:
 	for suit_data in card_suit:
+		var symbol = card_suit[suit_data]["symbol"]
 		var suit = card_suit[suit_data]["suit"]
 		var type = card_suit[suit_data]["type"]
 		
@@ -282,7 +227,8 @@ func generate_deck() -> void:
 			var value = card_rank[rank_data]["value"]
 			var card = {}
 			
-			card["id"] = (suit + rank)
+			card["id"] = (symbol + rank)
+			card["rank"] = rank
 			card["suit"] = suit
 			card["type"] = type
 			card["value"] = value
@@ -296,15 +242,16 @@ func generate_deck() -> void:
 	
 	for card in deck:
 		match card.suit:
-			SPADES:
+			"SPADES":
 				card["asset_id"] = "spades_" + str(card.value)
-			CLUBS:
+			"CLUBS":
 				card["asset_id"] = "clubs_" + str(card.value)
-			DIAMONDS:
+			"DIAMONDS":
 				card["asset_id"] = "diamonds_" + str(card.value)
-			HEARTS:
+			"HEARTS":
 				card["asset_id"] = "hearts_" + str(card.value)
 	
+	print(deck)
 	deck.shuffle()
 	deck_count = deck.size()
 	deck_max = deck.size()
